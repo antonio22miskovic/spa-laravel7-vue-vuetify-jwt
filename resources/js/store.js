@@ -8,7 +8,7 @@ export default {
 
 state:{
 	drawer:false,
-		currentUser : user,
+	currentUser : user,
 	isloggeadin: !!user,
 	loading: false,
 	auth_error: null,

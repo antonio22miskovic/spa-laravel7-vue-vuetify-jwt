@@ -97601,26 +97601,26 @@ var routes = [//rutas
     path: '/',
     name: 'welcome',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/index/Welcome */ "./resources/js/components/index/Welcome.vue"));
+      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/index/Welcome */ "./resources/js/components/index/Welcome.vue"));
     }
   }, {
     path: 'login',
     name: 'login',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./components/layouts/auth/Login */ "./resources/js/components/layouts/auth/Login.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/layouts/auth/Login */ "./resources/js/components/layouts/auth/Login.vue"));
     }
   }, {
     path: 'registro',
     name: 'registro',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/index/Registro */ "./resources/js/components/index/Registro.vue"));
+      return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./components/index/Registro */ "./resources/js/components/index/Registro.vue"));
     }
   }]
 }, {
   path: '/home',
   name: 'home',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./views/Home */ "./resources/js/views/Home.vue"));
+    return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./views/Home */ "./resources/js/views/Home.vue"));
   },
   meta: {
     requiresAuth: true
