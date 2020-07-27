@@ -27,7 +27,7 @@
 
          <!-- NAV PARA USUARIO LOGUEADO -->
          <template v-else>
-             <v-app-bar-nav-icon @click="draweroff"></v-app-bar-nav-icon>
+             <v-app-bar-nav-icon ></v-app-bar-nav-icon>
               <v-toolbar-title>
                   <router-link to="/home" tag="span" style="cursor:pointer">vuetify</router-link>
               </v-toolbar-title>
@@ -41,7 +41,7 @@
                       </v-btn>
 
                       <v-btn color="primary" text small>
-                        <span @click="logout"> logout </span>
+                        <span @click="cerrar_session"> logout </span>
                       </v-btn>
 
                 </v-toolbar-items>
@@ -60,12 +60,12 @@
 		}),
 
 		computed:{
-      ...mapState(['currentUser'])
+      ...mapState('auth',['currentUser'])
 		},
     methods:{
-      ...mapMutations(['draweroff']),
-      logout(){
-        this.$store.commit('logout')
+      ...mapMutations('auth',['logout']),
+      cerrar_session(){
+        this.logout()
         this.$router.push('/login')
       }
     },

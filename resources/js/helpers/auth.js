@@ -1,51 +1,33 @@
 
-export class Auth {
+export function Auth (email, password) {
+	console.log(email, password)
+	let credenciales = { 'email': email, 'password': password }
 
-	constructor(email, password){
+		return new Promise((resolve, reject) =>{
 
-		this.password = password,
-		this.email = email
+			axios.post('/api/auth/login', credenciales)
 
-	}
+				.then( response => {
 
-	login(){
+				return resolve(response.data)
 
-		let credenciales = {
+				})
 
-			'email': this.email,
-			'password': this.password
-		}
+				.catch((error) => {
 
-		return new Promise((res ,rej) => {
+				return  reject(" verifique los datos por favor ")
 
-		axios.post('/api/auth/login', credenciales)
-		.then( response => {
-
-			res(response.data)
-
+				})
 		})
-		.catch((error) => {
-
-			rej(" verifique los datos por favor ")
-
-		})
-
-	})
-
-
-	}
-
-	getlocaluser(){
-
-	const userStr = localStorage.getItem('user')
-
-	if (!userStr) {
-
-		return null
-	}
-
-	return JSON.parse(userStr)
-
-	}
-
 }
+
+export function	getlocaluser() {
+
+		const userStr = localStorage.getItem('user')
+
+		if (!userStr)
+			return null
+		else
+			return JSON.parse(userStr)
+
+	}

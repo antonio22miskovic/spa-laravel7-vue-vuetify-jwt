@@ -42,6 +42,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -53,28 +54,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       errors: ''
     };
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(['header']), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('auth', ['login']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])('auth', ['loginexitoso', 'loginfallido']), {
     autenticacion: function autenticacion() {
       var _this = this;
 
-      this.$store.dispatch('login');
-      var autorizacion = new _helpers_auth__WEBPACK_IMPORTED_MODULE_0__["Auth"](this.email, this.password);
-      autorizacion.login().then(function (res) {
-        _this.$store.commit('loginexitoso', res);
-
-        _this.header();
+      this.login();
+      Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["Auth"])(this.email, this.password).then(function (res) {
+        _this.loginexitoso(res);
 
         _this.$router.push({
           path: '/home'
         });
       })["catch"](function (error) {
-        _this.$store.commit('loginfallido', {
-          error: error
-        });
+        _this.loginfallido(error);
       });
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['auth_error']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])('auth', ['auth_error']))
 });
 
 /***/ }),

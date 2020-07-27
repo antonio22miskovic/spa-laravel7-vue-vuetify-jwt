@@ -23,11 +23,16 @@
     </v-layout>
   </v-container>
 </template>
+
 <script>
+
 import { Auth } from '../../../helpers/auth'
-import { mapState , mapGetters , mapActions , mapMutations } from 'vuex'
-	export default{
+import { mapState , mapActions , mapMutations } from 'vuex'
+
+export default {
+
 		name:'Login',
+
     data:() =>({
 
       email:'',
@@ -38,33 +43,30 @@ import { mapState , mapGetters , mapActions , mapMutations } from 'vuex'
 
         methods:{
 
-          ...mapMutations(['header']),
-
+          ...mapActions('auth', [ 'login' ]),
+          ...mapMutations('auth',['loginexitoso','loginfallido']),
           autenticacion(){
 
-              this.$store.dispatch('login')
-              const autorizacion = new Auth(this.email, this.password)
-
-                autorizacion.login().then(res =>{
-
-                  this.$store.commit('loginexitoso', res)
-                  this.header()
+              this.login()
+              Auth(this.email, this.password).then(res => {
+                  this.loginexitoso(res)
                   this.$router.push({path:'/home'})
 
-                  })
-                  .catch((error) => {
-
-                  this.$store.commit('loginfallido', {error})
-
-                  })
+              })
+              .catch((error) => {
+                  this.loginfallido(error)
+              })
 
         },
+
       },
+
         computed:{
 
-      ...mapState(['auth_error'])
+      ...mapState('auth',['auth_error'])
 
     },
 
-	}
+}
+
 </script>
