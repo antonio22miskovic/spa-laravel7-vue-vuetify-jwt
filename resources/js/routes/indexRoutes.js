@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 // Importaciones de rutas
-import {routes} from './routesModules/indexRecept'
+import {routes} from './routes'
 
 //instancia  de vue-router
 Vue.use(VueRouter)

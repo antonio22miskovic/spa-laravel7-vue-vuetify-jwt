@@ -15,7 +15,7 @@ export function Auth (email, password) {
 
 				.catch((error) => {
 
-				return  reject(" verifique los datos por favor ")
+				return  reject('credenciales invalidas')
 
 				})
 		})

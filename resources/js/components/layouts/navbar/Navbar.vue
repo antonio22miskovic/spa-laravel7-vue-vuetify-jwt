@@ -14,11 +14,11 @@
               <v-toolbar-items>
 
                       <v-btn color="primary" text small>
-                        <router-link :to="{name:'login'}"tag="span">login</router-link>
+                        <router-link to="/login"tag="span">login</router-link>
                       </v-btn>
 
                       <v-btn color="primary" text small>
-                        <router-link :to="{name:'registro'}" tag="span">registrate</router-link>
+                        <router-link to="/registro" tag="span">registrate</router-link>
                       </v-btn>
 
                 </v-toolbar-items>
