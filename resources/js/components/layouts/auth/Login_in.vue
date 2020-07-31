@@ -4,7 +4,7 @@
         	<h4>Login</h4>
         </v-card-title>
         <v-form >
-            <v-text-field prepend-icon="mdi-user" v-model="email" name="email" label="email"></v-text-field>
+            <v-text-field prepend-icon="mdi-email" v-model="email" name="email" label="email"></v-text-field>
             <v-text-field prepend-icon="mdi-lock" v-model="password" name="Password" label="Password" type="password"></v-text-field>
             <v-card-actions>
               	<v-btn primary large block @click="autenticacion">Login</v-btn>
@@ -14,7 +14,6 @@
 </template>
 <script>
 import { Auth } from '../../../helpers/auth'
-import { mapState , mapActions , mapMutations } from 'vuex'
 	export default{
 
 		name:'Login_in',
@@ -29,18 +28,16 @@ import { mapState , mapActions , mapMutations } from 'vuex'
 
 		methods:{
 
-		  	...mapActions('auth', [ 'login' ]),
-          	...mapMutations('auth',['loginexitoso','loginfallido']),
           	autenticacion(){
 
-              	this.login()
+                this.$store.commit('auth/login')
               	Auth(this.email, this.password).then(res => {
-                  this.loginexitoso(res)
+                  this.$store.commit('auth/loginExitoso',res)
                   this.$router.push({path:'/home'})
 
               	})
               	.catch((error) => {
-                  this.loginfallido(error)
+                   this.$store.commit('auth/loginFallido',error)
               	})
 
         	},
@@ -50,7 +47,6 @@ import { mapState , mapActions , mapMutations } from 'vuex'
 
 		computed:{
 
-			...mapState('auth',['auth_error'])
 		}
 	}
 </script>

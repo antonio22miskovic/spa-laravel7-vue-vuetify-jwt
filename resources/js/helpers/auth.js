@@ -1,6 +1,6 @@
 
-export function Auth (email, password) {
-	console.log(email, password)
+export function  Auth (email, password) {
+
 	let credenciales = { 'email': email, 'password': password }
 
 		return new Promise((resolve, reject) =>{

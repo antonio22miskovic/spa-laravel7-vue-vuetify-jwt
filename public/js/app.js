@@ -97311,7 +97311,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Auth", function() { return Auth; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getlocaluser", function() { return getlocaluser; });
 function Auth(email, password) {
-  console.log(email, password);
   var credenciales = {
     'email': email,
     'password': password
@@ -97347,7 +97346,7 @@ function initialize(store, router) {
     var requiresAuth = to.matched.some(function (record) {
       return record.meta.requiresAuth;
     });
-    var currentUser = store._modules.root.state.auth.currentUser; // acedemos al estado del modulo auth
+    var currentUser = store.state.auth.currentUser; // acedemos al estado del modulo auth
 
     if (requiresAuth && !currentUser) {
       next('/login');
@@ -97359,19 +97358,27 @@ function initialize(store, router) {
   });
   axios.interceptors.response.use(null, function (error) {
     if (error.response.status === 401) {
-      var logout = store._modules.root._children.auth._rawModule.mutations.logout;
-      logout();
+      store.commit('auth/logout');
     }
 
     return Promise.reject(error);
-  });
+  }); // axios.interceptors.response.use((response) => {
+  // 			let headers = response.headers
+  // 		 // your 401 check here
+  // 			// token refresh - update client session
+  // 			if (headers.authorization !== undefined) {
+  //  					setAuthorization(headers.authorization);
+  // 			}
+  // 				return response
+  // })
+
   var userStr = localStorage.getItem('user');
 
   if (!userStr) {
     return null;
   }
 
-  axios.defaults.headers.common['Authorization'] = "Bearer ".concat(store._modules.root.state.auth.currentUser.token);
+  axios.defaults.headers.common['Authorization'] = "Bearer ".concat(store.state.auth.currentUser.token);
 }
 
 /***/ }),
@@ -97530,7 +97537,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     auth: _modules_authModule__WEBPACK_IMPORTED_MODULE_2__["authModule"] // modulo de autenticacion
 
   }
-});
+}); //import { mapState , mapActions , mapMutations } from 'vuex'
 
 /***/ }),
 
@@ -97563,7 +97570,7 @@ var authModule = {
       state.loading = true;
       state.auth_error = null;
     },
-    loginexitoso: function loginexitoso(state, payload) {
+    loginExitoso: function loginExitoso(state, payload) {
       state.auth_error = null;
       state.isloggeadin = true;
       state.loading = false;
@@ -97572,32 +97579,22 @@ var authModule = {
       });
       localStorage.setItem('user', JSON.stringify(state.currentUser));
     },
-    loginfallido: function loginfallido(state, payload) {
+    loginFallido: function loginFallido(state, payload) {
       state.loading = false;
-      state.auth_error = payload.error;
+      state.auth_error = payload;
     },
     logout: function logout(state) {
       localStorage.removeItem('user');
       state.isloggeadin = false;
       state.currentUser = null;
+    },
+    refreshError: function refreshError(state, payload) {
+      state.auth_error = payload;
     }
   },
   getters: {},
-  actions: {
-    login: function login(context) {
-      context.commit('login');
-    }
-  }
-}; // mutations:{
-// 	draweroff(state){
-//   		state.drawer = true
-//   	},
-//   	updatedrawer(state, paylod){
-//   		state.drawer = paylod
-//   	},
-// 	// cargarproductos(state,payload){
-// 	// 	state.productos = payload
-// 	// }
+  actions: {}
+};
 
 /***/ }),
 

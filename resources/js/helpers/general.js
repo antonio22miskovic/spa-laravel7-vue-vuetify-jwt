@@ -5,7 +5,7 @@ export function initialize(store, router){
 			router.beforeEach((to, from, next) => {
 
 			const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-			const currentUser = store._modules.root.state.auth.currentUser // acedemos al estado del modulo auth
+			const currentUser = store.state.auth.currentUser // acedemos al estado del modulo auth
 
 			if (requiresAuth && !currentUser) {
 
@@ -25,14 +25,24 @@ export function initialize(store, router){
 		axios.interceptors.response.use(null, (error) =>{
 
 			if (error.response.status === 401) {
-
-			let logout = store._modules.root._children.auth._rawModule.mutations.logout
-				logout()
+				store.commit('auth/logout')
 			}
 
 			return Promise.reject(error)
 
 		})
+
+		// axios.interceptors.response.use((response) => {
+  // 			let headers = response.headers
+ 	// 		 // your 401 check here
+  // 			// token refresh - update client session
+  // 			if (headers.authorization !== undefined) {
+  //  					setAuthorization(headers.authorization);
+  // 			}
+
+  // 				return response
+		// })
+
 		let userStr = localStorage.getItem('user')
 
 			if (!userStr) {
@@ -40,6 +50,7 @@ export function initialize(store, router){
 			return null
 		}
 
-		axios.defaults.headers.common['Authorization'] = `Bearer ${store._modules.root.state.auth.currentUser.token}`
+		axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.auth.currentUser.token}`
 
 }
+

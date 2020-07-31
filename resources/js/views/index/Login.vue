@@ -9,6 +9,9 @@
           <v-card flat>
             <router-view/>
           </v-card>
+                 <v-alert class="my-8" v-if="error != null" type="error">
+                    {{ error }}
+                 </v-alert>
         </v-container>
       </v-flex>
     </v-layout>
@@ -16,10 +19,16 @@
 </template>
 
 <script>
-
+import { mapActions } from 'vuex'
 export default {
 
 		name:'Login',
+
+     created(){
+
+      this.initError()
+
+    },
 
     data:() =>({
 
@@ -27,13 +36,28 @@ export default {
 
         methods:{
 
+          initError(){
+              this.error = null
+          }
 
       },
 
         computed:{
 
+          error:{
 
+            get(){
 
+              return this.$store.state.auth.auth_error
+
+            },
+
+            set(value){
+
+              this.$store.commit('auth/refreshError')
+
+            }
+          },
     },
 
 }

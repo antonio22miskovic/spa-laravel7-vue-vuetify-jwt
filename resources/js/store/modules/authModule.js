@@ -5,7 +5,9 @@ import {getlocaluser} from '../../helpers/auth'
 const user = getlocaluser()
 
 export const authModule = {
+
 	namespaced: true,
+
 	state : () => ({
 
 		currentUser : user,
@@ -21,10 +23,9 @@ export const authModule = {
 
 			state.loading    = true
 			state.auth_error = null
-
 		},
 
-		loginexitoso(state, payload){
+		loginExitoso(state, payload){
 
 			state.auth_error  = null
 			state.isloggeadin = true
@@ -34,10 +35,10 @@ export const authModule = {
 
 		},
 
-		loginfallido(state, payload){
+		loginFallido(state, payload){
 
 			state.loading    = false
-			state.auth_error = payload.error
+			state.auth_error = payload
 
 		},
 
@@ -48,24 +49,15 @@ export const authModule = {
 			state.currentUser = null
 
 		},
+
+		refreshError(state,payload){
+			state.auth_error = payload
+		}
 	},
 
 	getters:{},
 
 	actions:{
-		login(context){ context.commit('login') },
+
 	}
 }
-// mutations:{
-
-
-// 	draweroff(state){
-//   		state.drawer = true
-//   	},
-//   	updatedrawer(state, paylod){
-//   		state.drawer = paylod
-//   	},
-// 	// cargarproductos(state,payload){
-// 	// 	state.productos = payload
-// 	// }
-

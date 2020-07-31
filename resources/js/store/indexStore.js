@@ -16,3 +16,4 @@ export const store = new Vuex.Store({
 
 	},
 })
+//import { mapState , mapActions , mapMutations } from 'vuex'

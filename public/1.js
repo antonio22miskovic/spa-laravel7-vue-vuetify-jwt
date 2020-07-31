@@ -10,13 +10,6 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../helpers/auth */ "./resources/js/helpers/auth.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -31,7 +24,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Login_in',
@@ -42,23 +34,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       errors: ''
     };
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('auth', ['login']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])('auth', ['loginexitoso', 'loginfallido']), {
+  methods: {
     autenticacion: function autenticacion() {
       var _this = this;
 
-      this.login();
+      this.$store.commit('auth/login');
       Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["Auth"])(this.email, this.password).then(function (res) {
-        _this.loginexitoso(res);
+        _this.$store.commit('auth/loginExitoso', res);
 
         _this.$router.push({
           path: '/home'
         });
       })["catch"](function (error) {
-        _this.loginfallido(error);
+        _this.$store.commit('auth/loginFallido', error);
       });
     }
-  }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])('auth', ['auth_error']))
+  },
+  computed: {}
 });
 
 /***/ }),
@@ -90,7 +82,7 @@ var render = function() {
         [
           _c("v-text-field", {
             attrs: {
-              "prepend-icon": "mdi-user",
+              "prepend-icon": "mdi-email",
               name: "email",
               label: "email"
             },
