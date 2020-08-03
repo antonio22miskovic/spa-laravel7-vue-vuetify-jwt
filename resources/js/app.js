@@ -14,13 +14,9 @@ import {store} from './store/indexStore'
 //importacion de configuracion
 import {initialize} from './helpers/general'
 
-
-
-
 //confugurando axios
 window.axios = require('axios')
 Vue.prototype.$http = window.axios
-
 
 
 //llamamos a la funcion de configuracion

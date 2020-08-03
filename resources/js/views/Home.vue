@@ -10,6 +10,26 @@
 
 	export default{
 		name:'Home',
+		mounted(){
+			this.getPrducto()
+		},
+		data : () => ({
+
+			producto:[]
+
+		}),
+		methods:{
+
+			getPrducto(){
+				axios.get('api/producto').then(res =>{
+					this.producto = res.data
+					console.log(this.producto)
+				})
+				.catch(e =>{
+					console.log(e)
+				})
+			}
+		}
 
 	}
 </script>

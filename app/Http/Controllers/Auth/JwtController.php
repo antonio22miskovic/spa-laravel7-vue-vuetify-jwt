@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
+// use JWTAuth;
+// use Auth;
 class JwtController extends Controller
 {
 
@@ -16,7 +20,7 @@ class JwtController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('refresh-jwt', ['except' => ['login']]);
     }
 
     /**
@@ -28,7 +32,7 @@ class JwtController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth('api')->attempt($credentials)) {
+        if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'No Autorizado'],401);
         }
 
@@ -40,22 +44,21 @@ class JwtController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me()
-    {
-        return response()->json(auth('api')->user());
+     public function getAuthUser(Request $request)
+     {
+        try {
+
+                $user = JWTAuth::parseToken()->authenticate();
+             return  response()->json(['user' => $user,'status' => 200],200);
+
+        } catch (JWTException $e) {
+
+            return  response()->json(['mensaje' => $e,'status' => 500],500);
+
+        }
+
     }
 
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout()
-    {
-        auth('api')->logout();
-
-        return response()->json(['message' => 'Session destruida correctamente']);
-    }
 
     /**
      * Refresh a token.
@@ -64,7 +67,8 @@ class JwtController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth('api')->refresh());
+        $newToken = JWTAuth::parseToken()->refresh();
+        return $this->respondWithToken($newToken);
     }
 
     /**
@@ -78,16 +82,31 @@ class JwtController extends Controller
     {
         return response()->json([
             'access_token' => $token,
-            'user' =>$this->guard()->user(),
+            'user' => User::find(Auth::user()->id),
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth('api')->factory()->getTTL()
         ]);
     }
 
-    public function guard(){
+      /**
+     * Log the user out (Invalidate the token).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        try {
 
-    	return \Auth::Guard('api');
+            JWTAuth::parseToken()->invalidate();
+              return response()->json(['mensaje' => 'session destruida con exito'],200);
+
+        } catch (JWTException $e) {
+
+              return  response()->json(['mensaje' => $e, 'status' => 500],500);
+
+        }
 
     }
+
 
 }

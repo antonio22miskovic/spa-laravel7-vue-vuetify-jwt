@@ -18,7 +18,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Home'
+  name: 'Home',
+  mounted: function mounted() {
+    this.getPrducto();
+  },
+  data: function data() {
+    return {
+      producto: []
+    };
+  },
+  methods: {
+    getPrducto: function getPrducto() {
+      var _this = this;
+
+      axios.get('api/producto').then(function (res) {
+        _this.producto = res.data;
+        console.log(_this.producto);
+      })["catch"](function (e) {
+        console.log(e);
+      });
+    }
+  }
 });
 
 /***/ }),

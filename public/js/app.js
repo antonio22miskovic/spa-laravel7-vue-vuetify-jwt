@@ -2216,12 +2216,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('auth', ['currentUser'])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])('auth', ['logout']), {
+  methods: {
     cerrar_session: function cerrar_session() {
-      this.logout();
+      this.$store.commit('auth/logout'); // this.$store.dispatch('auth/logout',this.currentUser.token)
+
       this.$router.push('/login');
     }
-  })
+  }
 });
 
 /***/ }),
@@ -97310,6 +97311,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Auth", function() { return Auth; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getlocaluser", function() { return getlocaluser; });
+/* harmony import */ var _general__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./general */ "./resources/js/helpers/general.js");
+
 function Auth(email, password) {
   var credenciales = {
     'email': email,
@@ -97317,6 +97320,8 @@ function Auth(email, password) {
   };
   return new Promise(function (resolve, reject) {
     axios.post('/api/auth/login', credenciales).then(function (response) {
+      console.log(response.data);
+      Object(_general__WEBPACK_IMPORTED_MODULE_0__["setAuthorization"])(response.data.access_token);
       return resolve(response.data);
     })["catch"](function (error) {
       return reject('credenciales invalidas');
@@ -97334,12 +97339,13 @@ function getlocaluser() {
 /*!*****************************************!*\
   !*** ./resources/js/helpers/general.js ***!
   \*****************************************/
-/*! exports provided: initialize */
+/*! exports provided: initialize, setAuthorization */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialize", function() { return initialize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAuthorization", function() { return setAuthorization; });
 function initialize(store, router) {
   //ajuste de seguridad de rutas
   router.beforeEach(function (to, from, next) {
@@ -97358,27 +97364,28 @@ function initialize(store, router) {
   });
   axios.interceptors.response.use(null, function (error) {
     if (error.response.status === 401) {
-      store.commit('auth/logout');
+      store.dispatch('auth/logout', store.state.auth.currentUser.token);
     }
 
     return Promise.reject(error);
   }); // axios.interceptors.response.use((response) => {
   // 			let headers = response.headers
-  // 		 // your 401 check here
+  // 			console.log(headers)
+  // 	 	// your 401 check here
   // 			// token refresh - update client session
   // 			if (headers.authorization !== undefined) {
-  //  					setAuthorization(headers.authorization);
-  // 			}
-  // 				return response
+  //  				setAuthorization(headers.authorization)
+  // 		}
+  // 			return response
   // })
 
-  var userStr = localStorage.getItem('user');
-
-  if (!userStr) {
-    return null;
+  if (store.state.auth.currentUser) {
+    setAuthorization(store.state.auth.currentUser.token);
   }
+} // funcion de manejo de cabezera para manipular el token
 
-  axios.defaults.headers.common['Authorization'] = "Bearer ".concat(store.state.auth.currentUser.token);
+function setAuthorization(token) {
+  axios.defaults.headers.common['Authorization'] = "Bearer ".concat(token);
 }
 
 /***/ }),
@@ -97593,7 +97600,18 @@ var authModule = {
     }
   },
   getters: {},
-  actions: {}
+  actions: {
+    logout: function logout(context, token) {
+      var access_token = {
+        token: token
+      };
+      axios.post('/api/auth/logout', access_token).then(function (res) {
+        if (res.data === true) context.commit('logout');
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 };
 
 /***/ }),

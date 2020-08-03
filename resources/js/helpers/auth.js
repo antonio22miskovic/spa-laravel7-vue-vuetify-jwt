@@ -1,3 +1,4 @@
+import { setAuthorization } from "./general"
 
 export function  Auth (email, password) {
 
@@ -6,16 +7,13 @@ export function  Auth (email, password) {
 		return new Promise((resolve, reject) =>{
 
 			axios.post('/api/auth/login', credenciales)
-
 				.then( response => {
-
-				return resolve(response.data)
-
+					console.log(response.data)
+					setAuthorization(response.data.access_token)
+					return resolve(response.data)
 				})
-
 				.catch((error) => {
-
-				return  reject('credenciales invalidas')
+				   return reject('credenciales invalidas')
 
 				})
 		})
@@ -26,8 +24,11 @@ export function	getlocaluser() {
 		const userStr = localStorage.getItem('user')
 
 		if (!userStr)
+
 			return null
+
 		else
+
 			return JSON.parse(userStr)
 
 	}
