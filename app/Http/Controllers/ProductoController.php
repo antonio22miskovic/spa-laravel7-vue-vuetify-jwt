@@ -9,7 +9,7 @@ class ProductoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('refresh-jwt');
+        $this->middleware('jwt.admin');
     }
 
     /**

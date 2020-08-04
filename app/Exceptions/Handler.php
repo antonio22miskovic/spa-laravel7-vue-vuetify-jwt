@@ -3,13 +3,13 @@
 namespace App\Exceptions;
 
 // use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
-use \Symfony\Component\HttpKernel\Exception\HttpException;
 use \Illuminate\Database\Eloquent\ModelNotFoundException;
 use \Illuminate\Database\QueryException;
 use \Illuminate\validation\ValidationException;
-use Illuminate\Auth\AuthenticationException;
+use \Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -70,7 +70,6 @@ protected $dontFlash = [
              if ($exception instanceof AuthenticationException) {
                 return response()->json(['mensaje'=>'autorizacion denegada','codigo'=>401],401);
             }
-
 
         return parent::render($request, $exception);
     }

@@ -8,7 +8,7 @@ use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class JwtAuthentication
+class JwtAuthorizationInit
 {
     /**
      * Handle an incoming request.
@@ -19,35 +19,33 @@ class JwtAuthentication
      */
     public function handle($request, Closure $next)
     {
-        try {
+         try {
 
             $user = JWTAuth::parseToken()->authenticate();
 
         } catch (JWTException $e) {
 
             if ($e instanceof TokenExpiredException) {
-
+                // refrescar eltoken si ya expiro
                 $newToken = JWTAuth::parseToken()->refresh();
-
-                 $request->headers->set('Authorization', 'Bearer' . $newToken);
-
-                return response()->json(['mensaje' => 'se ah renovado el token con exito',
-                                          'token' => $newToken],401);
+                $request->headers->set('Authorization', 'Bearer' . $newToken);
+                $response = $next($request);
+                $response->headers->set('Authorization', $newToken);
+                return $response;
 
             }else if ($e instanceof TokenInvalidException) {
+                    // token invalido
+                return response()->json(['mensaje' => 'token no valido','status' => 401],401);
 
-                  return response()->json(['mensaje' => 'token no valido','status' => 401],401);
 
             }else{
 
-                 return response()->json(['mensaje' => 'no existe el token','status' => 401],401);
+                return response()->json(['mensaje' => 'token no found','status' => 401],401);
 
             }
 
         }
 
         return $next($request);
-
     }
-
 }

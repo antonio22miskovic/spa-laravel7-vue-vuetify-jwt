@@ -61,9 +61,8 @@ export const authModule = {
 	getters:{},
 
 	actions:{
-		logout(context,token){
-		   let access_token = {token : token}
-			axios.post('/api/auth/logout',access_token).then(res => {
+		logout(context){
+			axios.post('/api/auth/logout',{}).then(res => {
 					if(res.data === true)
 						context.commit('logout')
 			}).catch(err => { console.log(err) })

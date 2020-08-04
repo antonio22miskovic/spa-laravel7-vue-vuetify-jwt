@@ -24,7 +24,7 @@ export function initialize(store, router){
 
 		axios.interceptors.response.use(null, (error) =>{
 			if (error.response.status === 401) {
-				 store.dispatch('auth/logout',store.state.auth.currentUser.token)
+				 store.dispatch('auth/logout')
 			}
 
 			return Promise.reject(error)

@@ -20,7 +20,7 @@ class JwtController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('refresh-jwt', ['except' => ['login']]);
+        $this->middleware('jwt.init', ['except' => ['login']]);
     }
 
     /**
@@ -44,7 +44,7 @@ class JwtController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-     public function getAuthUser(Request $request)
+     public function getAuthUser()
      {
         try {
 
@@ -93,7 +93,7 @@ class JwtController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout(Request $request)
+    public function logout()
     {
         try {
 
