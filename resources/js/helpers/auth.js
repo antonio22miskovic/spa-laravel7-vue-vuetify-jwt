@@ -8,7 +8,6 @@ export function  Auth (email, password) {
 
 			axios.post('/api/auth/login', credenciales)
 				.then( response => {
-					console.log(response.data)
 					setAuthorization(response.data.access_token)
 					return resolve(response.data)
 				})

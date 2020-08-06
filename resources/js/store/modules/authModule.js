@@ -61,11 +61,10 @@ export const authModule = {
 	getters:{},
 
 	actions:{
-		logout(context){
-			axios.post('/api/auth/logout',{}).then(res => {
-					if(res.data === true)
-						context.commit('logout')
-			}).catch(err => { console.log(err) })
-		}
+		// logout(context,token){
+		// 	axios.post('/api/auth/logout',{ token : token })
+		// 	.then(res =>  { context.commit('logout') })
+		// 	.catch(err => { console.log(err)})
+		// }
 	}
 }

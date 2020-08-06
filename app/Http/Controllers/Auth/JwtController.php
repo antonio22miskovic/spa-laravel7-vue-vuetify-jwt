@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-// use JWTAuth;
-// use Auth;
+
 class JwtController extends Controller
 {
 
@@ -31,7 +30,7 @@ class JwtController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-
+            //JWTAuth::factory()->setTTL(0010);
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'No Autorizado'],401);
         }
@@ -96,14 +95,11 @@ class JwtController extends Controller
     public function logout()
     {
         try {
-
             JWTAuth::parseToken()->invalidate();
-              return response()->json(['mensaje' => 'session destruida con exito'],200);
+              return response()->json(['mensaje' => 'session destruida con exito','confirmacion' => true],200);
 
         } catch (JWTException $e) {
-
               return  response()->json(['mensaje' => $e, 'status' => 500],500);
-
         }
 
     }

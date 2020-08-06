@@ -2218,8 +2218,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('auth', ['currentUser'])),
   methods: {
     cerrar_session: function cerrar_session() {
-      this.$store.commit('auth/logout'); // this.$store.dispatch('auth/logout',this.currentUser.token)
-
+      this.$store.commit('auth/logout');
       this.$router.push('/login');
     }
   }
@@ -97068,36 +97067,37 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _Render__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Render */ "./resources/js/Render.vue");
-/* harmony import */ var _routes_indexRoutes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./routes/indexRoutes */ "./resources/js/routes/indexRoutes.js");
+/* harmony import */ var _Render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Render */ "./resources/js/Render.vue");
+/* harmony import */ var _routes_indexRoutes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./routes/indexRoutes */ "./resources/js/routes/indexRoutes.js");
+/* harmony import */ var _store_indexStore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/indexStore */ "./resources/js/store/indexStore.js");
 /* harmony import */ var _helpers_vuetify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helpers/vuetify */ "./resources/js/helpers/vuetify.js");
-/* harmony import */ var _store_indexStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/indexStore */ "./resources/js/store/indexStore.js");
-/* harmony import */ var _helpers_general__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./helpers/general */ "./resources/js/helpers/general.js");
+/* harmony import */ var _helpers_general__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./helpers/general */ "./resources/js/helpers/general.js");
+/* harmony import */ var _helpers_Exeption__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./helpers/Exeption */ "./resources/js/helpers/Exeption.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); //llamando a las librerias
-
 
 
  //importaciones de configuracones de librerias
 
 
 
-
  //importacion de configuracion
+
+
 
  //confugurando axios
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$http = window.axios; //llamamos a la funcion de configuracion
 
-Object(_helpers_general__WEBPACK_IMPORTED_MODULE_6__["initialize"])(_store_indexStore__WEBPACK_IMPORTED_MODULE_5__["store"], _routes_indexRoutes__WEBPACK_IMPORTED_MODULE_3__["router"]);
+Object(_helpers_Exeption__WEBPACK_IMPORTED_MODULE_6__["handler"])(_store_indexStore__WEBPACK_IMPORTED_MODULE_3__["store"], _routes_indexRoutes__WEBPACK_IMPORTED_MODULE_2__["router"]);
+Object(_helpers_general__WEBPACK_IMPORTED_MODULE_5__["initialize"])(_store_indexStore__WEBPACK_IMPORTED_MODULE_3__["store"], _routes_indexRoutes__WEBPACK_IMPORTED_MODULE_2__["router"]);
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
-  router: _routes_indexRoutes__WEBPACK_IMPORTED_MODULE_3__["router"],
-  store: _store_indexStore__WEBPACK_IMPORTED_MODULE_5__["store"],
+  router: _routes_indexRoutes__WEBPACK_IMPORTED_MODULE_2__["router"],
+  store: _store_indexStore__WEBPACK_IMPORTED_MODULE_3__["store"],
   vuetify: _helpers_vuetify__WEBPACK_IMPORTED_MODULE_4__["default"],
   render: function render(h) {
-    return h(_Render__WEBPACK_IMPORTED_MODULE_2__["default"]);
+    return h(_Render__WEBPACK_IMPORTED_MODULE_1__["default"]);
   }
 });
 
@@ -97300,6 +97300,53 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/helpers/Exeption.js":
+/*!******************************************!*\
+  !*** ./resources/js/helpers/Exeption.js ***!
+  \******************************************/
+/*! exports provided: handler */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handler", function() { return handler; });
+/* harmony import */ var _general__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./general */ "./resources/js/helpers/general.js");
+
+function handler(store, router) {
+  axios.interceptors.response.use(null, function (error) {
+    switch (error.response.status) {
+      case 401:
+        store.commit('auth/logout');
+        router.push('/');
+        break;
+
+      case 500:
+        console.log('ah ocurrido un problema en el servidor');
+        return Promise.reject(error);
+        break;
+
+      default:
+        break;
+    }
+  }); // detecta si envie el nuevo token en el header para actualizarlo en el localstore
+
+  axios.interceptors.response.use(function (response) {
+    var headers = response.headers;
+    console.log(headers);
+
+    if (headers.authorization !== undefined) {
+      var updateToken = store.state.auth.currentUser;
+      updateToken.token = headers.authorization;
+      localStorage.setItem('user', JSON.stringify(updateToken));
+      Object(_general__WEBPACK_IMPORTED_MODULE_0__["setAuthorization"])(headers.authorization);
+    }
+
+    return response;
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/js/helpers/auth.js":
 /*!**************************************!*\
   !*** ./resources/js/helpers/auth.js ***!
@@ -97320,7 +97367,6 @@ function Auth(email, password) {
   };
   return new Promise(function (resolve, reject) {
     axios.post('/api/auth/login', credenciales).then(function (response) {
-      console.log(response.data);
       Object(_general__WEBPACK_IMPORTED_MODULE_0__["setAuthorization"])(response.data.access_token);
       return resolve(response.data);
     })["catch"](function (error) {
@@ -97362,22 +97408,6 @@ function initialize(store, router) {
       next();
     }
   });
-  axios.interceptors.response.use(null, function (error) {
-    if (error.response.status === 401) {
-      store.dispatch('auth/logout', store.state.auth.currentUser.token);
-    }
-
-    return Promise.reject(error);
-  }); // axios.interceptors.response.use((response) => {
-  // 			let headers = response.headers
-  // 			console.log(headers)
-  // 	 	// your 401 check here
-  // 			// token refresh - update client session
-  // 			if (headers.authorization !== undefined) {
-  //  				setAuthorization(headers.authorization)
-  // 		}
-  // 			return response
-  // })
 
   if (store.state.auth.currentUser) {
     setAuthorization(store.state.auth.currentUser.token);
@@ -97600,17 +97630,11 @@ var authModule = {
     }
   },
   getters: {},
-  actions: {
-    logout: function logout(context, token) {
-      var access_token = {
-        token: token
-      };
-      axios.post('/api/auth/logout', access_token).then(function (res) {
-        if (res.data === true) context.commit('logout');
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    }
+  actions: {// logout(context,token){
+    // 	axios.post('/api/auth/logout',{ token : token })
+    // 	.then(res =>  { context.commit('logout') })
+    // 	.catch(err => { console.log(err)})
+    // }
   }
 };
 

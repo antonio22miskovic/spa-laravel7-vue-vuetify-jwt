@@ -21,26 +21,22 @@ import { Auth } from '../../../helpers/auth'
 		data: () => ({
 
 			email:'',
-      		password:'',
-      		errors:'',
+      password:'',
 
 		}),
 
 		methods:{
 
           	autenticacion(){
-
                 this.$store.commit('auth/login')
               	Auth(this.email, this.password).then(res => {
                   this.$store.commit('auth/loginExitoso',res)
                   this.$router.push({path:'/home'})
-
               	})
               	.catch((error) => {
                    this.$store.commit('auth/loginFallido',error)
               	})
-
-        	},
+        	  },
 
 
 		},

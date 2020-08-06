@@ -66,7 +66,6 @@
 
       cerrar_session(){
         this.$store.commit('auth/logout')
-        // this.$store.dispatch('auth/logout',this.currentUser.token)
         this.$router.push('/login')
       }
     },
