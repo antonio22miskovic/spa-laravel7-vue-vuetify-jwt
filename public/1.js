@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _helpers_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../helpers/auth */ "./resources/js/helpers/auth.js");
+/* harmony import */ var _helpers_axiosDefaultHeaders__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../helpers/axiosDefaultHeaders */ "./resources/js/helpers/axiosDefaultHeaders.js");
 //
 //
 //
@@ -29,23 +29,32 @@ __webpack_require__.r(__webpack_exports__);
   name: 'Login_in',
   data: function data() {
     return {
-      email: '',
-      password: ''
+      credenciales: {
+        email: '',
+        password: ''
+      }
     };
   },
   methods: {
     autenticacion: function autenticacion() {
       var _this = this;
 
-      this.$store.commit('auth/login');
-      Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["Auth"])(this.email, this.password).then(function (res) {
-        _this.$store.commit('auth/loginExitoso', res);
+      this.$store.commit('auth/login'); // llamamos aesta mutacion que activa el loading
+
+      this.$store.dispatch('auth/auth', this.credenciales).then(function (res) {
+        // acciones para el login
+        Object(_helpers_axiosDefaultHeaders__WEBPACK_IMPORTED_MODULE_0__["setAuthorization"])(res.access_token); // introducimos el token en el header de axios
+
+        _this.$store.commit('auth/loginExitoso', res); // si el login es exitoso
+
 
         _this.$router.push({
           path: '/home'
-        });
+        }); // empujamos a la vista home
+
       })["catch"](function (error) {
-        _this.$store.commit('auth/loginFallido', error);
+        _this.$store.commit('auth/loginFallido', error); // validamos el error
+
       });
     }
   },
@@ -86,11 +95,11 @@ var render = function() {
               label: "email"
             },
             model: {
-              value: _vm.email,
+              value: _vm.credenciales.email,
               callback: function($$v) {
-                _vm.email = $$v
+                _vm.$set(_vm.credenciales, "email", $$v)
               },
-              expression: "email"
+              expression: "credenciales.email"
             }
           }),
           _vm._v(" "),
@@ -102,11 +111,11 @@ var render = function() {
               type: "password"
             },
             model: {
-              value: _vm.password,
+              value: _vm.credenciales.password,
               callback: function($$v) {
-                _vm.password = $$v
+                _vm.$set(_vm.credenciales, "password", $$v)
               },
-              expression: "password"
+              expression: "credenciales.password"
             }
           }),
           _vm._v(" "),

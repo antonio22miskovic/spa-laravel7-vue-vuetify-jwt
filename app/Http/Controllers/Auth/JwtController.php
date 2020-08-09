@@ -32,10 +32,13 @@ class JwtController extends Controller
         $credentials = request(['email', 'password']);
             //JWTAuth::factory()->setTTL(0010);
         if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'No Autorizado'],401);
+            return response()->json(['error' => 'No Autorizado'],400);
         }
-
-        return $this->respondWithToken($token);
+            return response()->json([
+                'access_token' => $token,
+                'user' => User::find(Auth::user()->id),
+                'token_type' => 'bearer',
+            ],200);
     }
 
     /**
@@ -57,8 +60,6 @@ class JwtController extends Controller
         }
 
     }
-
-
     /**
      * Refresh a token.
      *
@@ -67,24 +68,7 @@ class JwtController extends Controller
     public function refresh()
     {
         $newToken = JWTAuth::parseToken()->refresh();
-        return $this->respondWithToken($newToken);
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'user' => User::find(Auth::user()->id),
-            'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL()
-        ]);
+        return response()->json($newToken);
     }
 
       /**

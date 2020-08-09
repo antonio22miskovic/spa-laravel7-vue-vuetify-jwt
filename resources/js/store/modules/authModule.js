@@ -1,6 +1,6 @@
 ////////////////////////////////// MODULO DE AUTENTICACION ///////////////////////////////////
 
-import {getlocaluser} from '../../helpers/auth'
+import {getlocaluser} from '../../helpers/getAuthUser'
 
 const user = getlocaluser()
 
@@ -61,10 +61,15 @@ export const authModule = {
 	getters:{},
 
 	actions:{
-		// logout(context,token){
-		// 	axios.post('/api/auth/logout',{ token : token })
-		// 	.then(res =>  { context.commit('logout') })
-		// 	.catch(err => { console.log(err)})
-		// }
+
+		async auth(context,credenciales){
+			try {
+				let res = await axios.post('/api/auth/login',credenciales)
+				return res.data
+			} catch(e) {
+				throw new Error('credenciales invalidas')
+			}
+		}
 	}
+
 }

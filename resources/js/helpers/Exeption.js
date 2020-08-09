@@ -1,4 +1,4 @@
-import {setAuthorization} from './general'
+import {setAuthorization} from './axiosDefaultHeaders'
 
 export function handler(store, router){
 
