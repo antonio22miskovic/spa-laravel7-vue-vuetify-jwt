@@ -6,7 +6,7 @@
 		<v-form >
             <v-text-field prepend-icon="mdi-email" v-model="email" name="email" label="email"></v-text-field>
             <v-card-actions>
-            	<v-btn primary large block >enviar</v-btn>
+            	<v-btn primary large block @click="confirmacion" >enviar</v-btn>
             </v-card-actions>
         </v-form>
 	</div>
@@ -18,6 +18,12 @@ import { mapState , mapActions , mapMutations } from 'vuex'
 
 		name:'EmailVerifique',
 
+		mounted(){
+			if (this.$store.state.auth.auth_error !== null) {
+				this.$store.commit('auth/refreshError')
+			}
+		},
+
 		data: () => ({
 
 			email:''
@@ -26,6 +32,15 @@ import { mapState , mapActions , mapMutations } from 'vuex'
 
 		methods:{
 
+			confirmacion(){
+				this.$store.dispatch('auth/emailVerificacion',this.email).then(res => {
+					this.$store.commit('auth/setResetEmail',res.email)
+					this.$router.push({name:'codigoVerifique'})
+				})
+				.catch( err =>{
+					this.$store.commit('auth/authError',err)
+				})
+			}
 
 		}
 	}

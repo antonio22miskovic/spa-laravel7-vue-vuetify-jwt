@@ -98164,15 +98164,26 @@ function setAuthorization(token) {
 /*!*********************************************!*\
   !*** ./resources/js/helpers/getAuthUser.js ***!
   \*********************************************/
-/*! exports provided: getlocaluser */
+/*! exports provided: getlocaluser, getEmailReset, getDatosReset */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getlocaluser", function() { return getlocaluser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEmailReset", function() { return getEmailReset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDatosReset", function() { return getDatosReset; });
 function getlocaluser() {
   var userStr = localStorage.getItem('user');
   if (!userStr) return null;else return JSON.parse(userStr);
+} //////// funciones de reseteo de contraseña
+
+function getEmailReset() {
+  var emailReset = localStorage.getItem('email');
+  if (!emailReset) return null;else return JSON.parse(emailReset);
+}
+function getDatosReset() {
+  var datosReset = localStorage.getItem('datos');
+  if (!datosReset) return null;else return JSON.parse(datosReset);
 }
 
 /***/ }),
@@ -98266,37 +98277,49 @@ var routes = [//rutas
   path: '/',
   name: 'index',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./../views/index/Index */ "./resources/js/views/index/Index.vue"));
+    return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./../views/index/Index */ "./resources/js/views/index/Index.vue"));
   }
 }, {
   path: '/login',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./../views/index/Login */ "./resources/js/views/index/Login.vue"));
+    return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./../views/index/Login */ "./resources/js/views/index/Login.vue"));
   },
   children: [{
     path: '/',
     name: 'login_in',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Login_in */ "./resources/js/components/layouts/auth/Login_in.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Login_in */ "./resources/js/components/layouts/auth/Login_in.vue"));
     }
   }, {
     path: '/email-verifique',
     name: 'emailVerifique',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/EmailVerifique */ "./resources/js/components/layouts/auth/EmailVerifique.vue"));
+      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/EmailVerifique */ "./resources/js/components/layouts/auth/EmailVerifique.vue"));
+    }
+  }, {
+    path: '/codigo-verifique',
+    name: 'codigoVerifique',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/CodigoVerifique */ "./resources/js/components/layouts/auth/CodigoVerifique.vue"));
+    }
+  }, {
+    path: '/update-password',
+    name: 'updatePassword',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/UpdatePassword */ "./resources/js/components/layouts/auth/UpdatePassword.vue"));
     }
   }]
 }, {
   path: '/registro',
   name: 'registro',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./../views/index/Registro */ "./resources/js/views/index/Registro.vue"));
+    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./../views/index/Registro */ "./resources/js/views/index/Registro.vue"));
   }
 }, {
   path: '/home',
   name: 'home',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./../views/Home */ "./resources/js/views/Home.vue"));
+    return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./../views/Home */ "./resources/js/views/Home.vue"));
   },
   meta: {
     requiresAuth: true
@@ -98356,7 +98379,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 ////////////////////////////////// MODULO DE AUTENTICACION ///////////////////////////////////
 
-var user = Object(_helpers_getAuthUser__WEBPACK_IMPORTED_MODULE_1__["getlocaluser"])();
+var user = Object(_helpers_getAuthUser__WEBPACK_IMPORTED_MODULE_1__["getlocaluser"])(); // reseteo de contraseña
+
+var er = Object(_helpers_getAuthUser__WEBPACK_IMPORTED_MODULE_1__["getEmailReset"])();
+var dr = Object(_helpers_getAuthUser__WEBPACK_IMPORTED_MODULE_1__["getDatosReset"])();
 var authModule = {
   namespaced: true,
   state: function state() {
@@ -98364,7 +98390,10 @@ var authModule = {
       currentUser: user,
       isloggeadin: !!user,
       loading: false,
-      auth_error: null
+      auth_error: null,
+      // Reseteo de contraseña
+      resetemail: er,
+      resetdatos: dr
     };
   },
   mutations: {
@@ -98381,7 +98410,7 @@ var authModule = {
       });
       localStorage.setItem('user', JSON.stringify(state.currentUser));
     },
-    loginFallido: function loginFallido(state, payload) {
+    authError: function authError(state, payload) {
       state.loading = false;
       state.auth_error = payload;
     },
@@ -98392,6 +98421,21 @@ var authModule = {
     },
     refreshError: function refreshError(state, payload) {
       state.auth_error = payload;
+    },
+    // recuperar contraseña
+    setResetEmail: function setResetEmail(state, payload) {
+      state.resetemail = payload;
+      localStorage.setItem('email', JSON.stringify(payload));
+    },
+    setResetDatos: function setResetDatos(state, payload) {
+      state.resetdatos = payload;
+      localStorage.setItem('datos', JSON.stringify(payload));
+    },
+    clearReset: function clearReset(state) {
+      localStorage.removeItem('email');
+      localStorage.removeItem('datos');
+      state.resetemail = null;
+      state.resetdatos = null;
     }
   },
   getters: {},
@@ -98422,6 +98466,96 @@ var authModule = {
             }
           }
         }, _callee, null, [[0, 7]]);
+      }))();
+    },
+    /// RECUPERACION DE CONTRASEÑA
+    // verificacion del email
+    emailVerificacion: function emailVerificacion(context, email) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return axios.post('/api/reset/email-vereificacion', {
+                  email: email
+                });
+
+              case 3:
+                res = _context2.sent;
+                return _context2.abrupt("return", res.data);
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](0);
+                throw new Error('email invalido');
+
+              case 10:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 7]]);
+      }))();
+    },
+    // verificacion del email
+    codigoVerificacion: function codigoVerificacion(context, datos) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return axios.post('/api/reset/codigo-vereificacion', datos);
+
+              case 3:
+                res = _context3.sent;
+                return _context3.abrupt("return", res.data);
+
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](0);
+                throw new Error('codigo invalido');
+
+              case 10:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 7]]);
+      }))();
+    },
+    // actualizar la contraseña
+    passwordReset: function passwordReset(context, datos) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.prev = 0;
+                _context4.next = 3;
+                return axios.post('/api/reset/update-password', datos);
+
+              case 3:
+                res = _context4.sent;
+                return _context4.abrupt("return", res.data);
+
+              case 7:
+                _context4.prev = 7;
+                _context4.t0 = _context4["catch"](0);
+                throw new Error('ah habido un problema al actualizar su contraseña');
+
+              case 10:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[0, 7]]);
       }))();
     }
   }

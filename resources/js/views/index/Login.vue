@@ -12,6 +12,7 @@
                  <v-alert class="my-8" v-if="error != null" type="error">
                     {{ error }}
                  </v-alert>
+                <v-btn :to="{name:'emailVerifique'}"> olvidaste tu contraseña </v-btn>
         </v-container>
       </v-flex>
     </v-layout>

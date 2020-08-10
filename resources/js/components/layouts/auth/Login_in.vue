@@ -36,7 +36,7 @@ import { setAuthorization } from '../../../helpers/axiosDefaultHeaders'
           this.$router.push({path:'/home'})// empujamos a la vista home
         })
         .catch((error) => {
-          this.$store.commit('auth/loginFallido',error)// validamos el error
+          this.$store.commit('auth/authError',error)// validamos el error
         })
       },
 

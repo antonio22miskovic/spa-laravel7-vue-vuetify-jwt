@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 */
+// rutas de autenticazion
 Route::group(['prefix' => 'auth'], function ($router) {
 
     	Route::post('login', 'Auth\JwtController@login');
@@ -17,3 +18,12 @@ Route::group(['prefix' => 'auth'], function ($router) {
 
 	});
 	Route::apiresource('producto','ProductoController');
+
+// rutas de reseteo de contraseña
+Route::group(['prefix' => 'reset'], function ($router) {
+
+	Route::post('email-vereificacion','Auth\ResetPasswordController@emailValidate');
+	Route::post('codigo-vereificacion','Auth\ResetPasswordController@ConfirmeCodigo');
+	Route::post('update-password','Auth\ResetPasswordController@UpdatePassword');
+
+});

@@ -25,6 +25,16 @@ export const routes = [
         name:'emailVerifique',
         component: () => import('./../components/layouts/auth/EmailVerifique')
       },
+      {
+        path:'/codigo-verifique',
+        name:'codigoVerifique',
+        component: () => import('./../components/layouts/auth/CodigoVerifique')
+      },
+       {
+        path:'/update-password',
+        name:'updatePassword',
+        component: () => import('./../components/layouts/auth/UpdatePassword')
+      },
 
     ]
  },
