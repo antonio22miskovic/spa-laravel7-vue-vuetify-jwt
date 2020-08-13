@@ -1,14 +1,18 @@
 <template>
 	<div>
-		<v-card-title primary-title>
-        	<h6> Introduzca el codigo que fue enviado a su correo: {{$store.state.auth.resetemail}} </h6>
-        </v-card-title>
+		<div class="layout column align-center">
+        	<img src="logos/logo.png" alt="recuperacion de password" width="180" height="180">
+        	<h1 class="flex my-4 primary--text">Confirme el codigo</h1>
+    	</div>
+        <v-card-text>
 		<v-form >
-            <v-text-field prepend-icon="mdi-email" v-model="codigo" name="codigo" label="codigo"></v-text-field>
+            <v-text-field prepend-icon="mdi-email" v-model="codigo" :rules="[rules.required]" name="codigo" label="codigo"></v-text-field>
             <v-card-actions>
-            	<v-btn primary large block @click="confirmacion" >confirmar</v-btn>
+            	 <v-btn block color="primary" @click="confirmacion" :loading="loading">enviar</v-btn>
             </v-card-actions>
         </v-form>
+    </v-card-text>
+    <v-btn link :to="{name:'login_in'}">login</v-btn>
 	</div>
 </template>
 <script>
@@ -18,9 +22,6 @@
 		name:'EmailVerifique',
 
 		mounted(){
-			if (this.$store.state.auth.auth_error !== null) {
-				this.$store.commit('auth/refreshError')
-			}
 
 			if (this.$store.state.auth.resetemail === null) {
 				this.$router.push({name:'login_in'})
@@ -29,14 +30,17 @@
 
 		data: () => ({
 
-			codigo:''
+			codigo:'',
+			rules: {
+        		required: value => !!value || 'Required.'
+      		}
 
 		}),
 
 		methods:{
 
 			confirmacion(){
-
+				 this.$store.commit('auth/login') // llamamos aesta mutacion que activa el loading
 				let datos = {
 					email  : this.$store.state.auth.resetemail,
 					codigo : this.codigo
@@ -48,12 +52,25 @@
 				})
 				.catch( err =>{
 					this.$store.commit('auth/authError',err)
+					this.ErrorModal = true
 				})
 			}
 
 		},
 
 		computed:{
+
+			loading(){
+        		return this.$store.state.auth.loading
+      		},
+      		ErrorModal:{
+      			set(value){
+          			return this.$store.commit('auth/MostrarError',value)
+      			},
+      			get(){
+          			return this.$store.state.auth.showResult
+      			}
+    		},
 
 		}
 	}

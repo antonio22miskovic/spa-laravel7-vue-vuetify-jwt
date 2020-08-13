@@ -23,22 +23,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'EmailVerifique',
-  mounted: function mounted() {
-    if (this.$store.state.auth.auth_error !== null) {
-      this.$store.commit('auth/refreshError');
-    }
-  },
   data: function data() {
     return {
-      email: ''
+      email: '',
+      rules: {
+        required: function required(value) {
+          return !!value || 'Required.';
+        }
+      }
     };
   },
   methods: {
     confirmacion: function confirmacion() {
       var _this = this;
+
+      this.$store.commit('auth/login'); // llamamos aesta mutacion que activa el loading
 
       this.$store.dispatch('auth/emailVerificacion', this.email).then(function (res) {
         _this.$store.commit('auth/setResetEmail', res.email);
@@ -48,7 +54,22 @@ __webpack_require__.r(__webpack_exports__);
         });
       })["catch"](function (err) {
         _this.$store.commit('auth/authError', err);
+
+        _this.ErrorModal = true;
       });
+    }
+  },
+  computed: {
+    loading: function loading() {
+      return this.$store.state.auth.loading;
+    },
+    ErrorModal: {
+      set: function set(value) {
+        return this.$store.commit('auth/MostrarError', value);
+      },
+      get: function get() {
+        return this.$store.state.auth.showResult;
+      }
     }
   }
 });
@@ -73,50 +94,83 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("v-card-title", { attrs: { "primary-title": "" } }, [
-        _c("h4", [_vm._v("Introduzca su email")])
-      ]),
+      _vm._m(0),
       _vm._v(" "),
       _c(
-        "v-form",
+        "v-card-text",
         [
-          _c("v-text-field", {
-            attrs: {
-              "prepend-icon": "mdi-email",
-              name: "email",
-              label: "email"
-            },
-            model: {
-              value: _vm.email,
-              callback: function($$v) {
-                _vm.email = $$v
-              },
-              expression: "email"
-            }
-          }),
-          _vm._v(" "),
           _c(
-            "v-card-actions",
+            "v-form",
             [
-              _c(
-                "v-btn",
-                {
-                  attrs: { primary: "", large: "", block: "" },
-                  on: { click: _vm.confirmacion }
+              _c("v-text-field", {
+                attrs: {
+                  "prepend-icon": "mdi-email",
+                  name: "email",
+                  rules: [_vm.rules.required],
+                  label: "introduzaca su email"
                 },
-                [_vm._v("enviar")]
+                model: {
+                  value: _vm.email,
+                  callback: function($$v) {
+                    _vm.email = $$v
+                  },
+                  expression: "email"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        block: "",
+                        color: "primary",
+                        loading: _vm.loading
+                      },
+                      on: { click: _vm.confirmacion }
+                    },
+                    [_vm._v("enviar")]
+                  )
+                ],
+                1
               )
             ],
             1
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("v-btn", { attrs: { link: "", to: { name: "login_in" } } }, [
+        _vm._v("login")
+      ])
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "layout column align-center" }, [
+      _c("img", {
+        attrs: {
+          src: "logos/logo.png",
+          alt: "recuperacion de password",
+          width: "180",
+          height: "180"
+        }
+      }),
+      _vm._v(" "),
+      _c("h1", { staticClass: "flex my-4 primary--text" }, [
+        _vm._v("recuperacion de contraseña")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -166,7 +220,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["VBtn"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardActions"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardTitle"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_6__["VForm"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_7__["VTextField"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["VBtn"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardText"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_6__["VForm"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_7__["VTextField"]})
 
 
 /* hot reload */

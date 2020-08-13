@@ -98390,7 +98390,9 @@ var authModule = {
       currentUser: user,
       isloggeadin: !!user,
       loading: false,
+      // errores de validacion
       auth_error: null,
+      showResult: false,
       // Reseteo de contraseña
       resetemail: er,
       resetdatos: dr
@@ -98414,26 +98416,29 @@ var authModule = {
       state.loading = false;
       state.auth_error = payload;
     },
+    MostrarError: function MostrarError(state, payload) {
+      state.showResult = payload;
+    },
     logout: function logout(state) {
       localStorage.removeItem('user');
       state.isloggeadin = false;
       state.currentUser = null;
     },
-    refreshError: function refreshError(state, payload) {
-      state.auth_error = payload;
-    },
     // recuperar contraseña
     setResetEmail: function setResetEmail(state, payload) {
       state.resetemail = payload;
+      state.loading = false;
       localStorage.setItem('email', JSON.stringify(payload));
     },
     setResetDatos: function setResetDatos(state, payload) {
       state.resetdatos = payload;
+      state.loading = false;
       localStorage.setItem('datos', JSON.stringify(payload));
     },
     clearReset: function clearReset(state) {
       localStorage.removeItem('email');
       localStorage.removeItem('datos');
+      state.loading = false;
       state.resetemail = null;
       state.resetdatos = null;
     }

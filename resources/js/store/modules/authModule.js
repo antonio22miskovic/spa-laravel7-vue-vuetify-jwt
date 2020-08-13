@@ -17,8 +17,10 @@ export const authModule = {
 		currentUser : user,
 		isloggeadin : !!user,
 		loading     : false,
-		auth_error  : null,
 
+		// errores de validacion
+		auth_error  : null,
+		showResult  : false,
 		// Reseteo de contraseña
 		resetemail   : er,
 		resetdatos   : dr,
@@ -50,6 +52,12 @@ export const authModule = {
 
 		},
 
+		MostrarError(state, payload){
+
+			state.showResult = payload
+
+		},
+
 		logout(state){
 
 			localStorage.removeItem('user')
@@ -58,22 +66,18 @@ export const authModule = {
 
 		},
 
-		refreshError(state,payload){
-
-			state.auth_error = payload
-
-		},
-
 		// recuperar contraseña
 
 		setResetEmail(state,payload){
 			state.resetemail = payload
+			state.loading    = false
 			localStorage.setItem('email',JSON.stringify(payload))
 
 		},
 
 		setResetDatos(state,payload){
 			state.resetdatos = payload
+			state.loading    = false
 			localStorage.setItem('datos',JSON.stringify(payload))
 
 		},
@@ -82,6 +86,7 @@ export const authModule = {
 
 			localStorage.removeItem('email')
 			localStorage.removeItem('datos')
+			state.loading    = false
 			state.resetemail = null
 			state.resetdatos = null
 
