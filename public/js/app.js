@@ -98277,36 +98277,36 @@ var routes = [//rutas
   path: '/',
   name: 'index',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./../views/index/Index */ "./resources/js/views/index/Index.vue"));
+    return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./../views/index/Index */ "./resources/js/views/index/Index.vue"));
   }
 }, {
   path: '/login',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./../views/index/Login */ "./resources/js/views/index/Login.vue"));
+    return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./../views/index/Login */ "./resources/js/views/index/Login.vue"));
   },
   children: [{
     path: '/',
     name: 'login_in',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Login_in */ "./resources/js/components/layouts/auth/Login_in.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Login_in */ "./resources/js/components/layouts/auth/Login_in.vue"));
     }
   }, {
     path: '/email-verifique',
     name: 'emailVerifique',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/EmailVerifique */ "./resources/js/components/layouts/auth/EmailVerifique.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/EmailVerifique */ "./resources/js/components/layouts/auth/EmailVerifique.vue"));
     }
   }, {
     path: '/codigo-verifique',
     name: 'codigoVerifique',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/CodigoVerifique */ "./resources/js/components/layouts/auth/CodigoVerifique.vue"));
+      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/CodigoVerifique */ "./resources/js/components/layouts/auth/CodigoVerifique.vue"));
     }
   }, {
     path: '/update-password',
     name: 'updatePassword',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/UpdatePassword */ "./resources/js/components/layouts/auth/UpdatePassword.vue"));
+      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/UpdatePassword */ "./resources/js/components/layouts/auth/UpdatePassword.vue"));
     }
   }]
 }, {
@@ -98319,7 +98319,7 @@ var routes = [//rutas
   path: '/home',
   name: 'home',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./../views/Home */ "./resources/js/views/Home.vue"));
+    return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./../views/Home */ "./resources/js/views/Home.vue"));
   },
   meta: {
     requiresAuth: true

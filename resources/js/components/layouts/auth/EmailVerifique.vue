@@ -12,7 +12,9 @@
             </v-card-actions>
         </v-form>
     </v-card-text>
-     <v-btn link :to="{name:'login_in'}">login</v-btn>
+      <div class="text-center">
+    	<v-btn text :to="{name:'login_in'}">login</v-btn>
+ 	</div>
 	</div>
 </template>
 <script>

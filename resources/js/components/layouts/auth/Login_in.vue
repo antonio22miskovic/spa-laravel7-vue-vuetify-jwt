@@ -33,8 +33,10 @@
 
         </v-form>
     </v-card-text>
+    <div class="text-center">
+      <v-btn text  :to="{name:'emailVerifique'}"> Olvidaste tu Contraseña? </v-btn>
+    </div>
 
-   <v-btn link :to="{name:'emailVerifique'}">recuperar contraseña</v-btn>
 
 
 	</div>
