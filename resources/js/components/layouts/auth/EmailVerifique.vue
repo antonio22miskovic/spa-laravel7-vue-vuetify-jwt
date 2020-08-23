@@ -1,11 +1,8 @@
 <template>
 	<div>
-		<div class="layout column align-center">
-        	<img src="logos/logo.png" alt="recuperacion de password" width="180" height="180">
-        	<h1 class="flex my-4 primary--text">recuperacion de contraseña</h1>
-    	</div>
+
          <v-card-text>
-		<v-form >
+		<v-form ref="email" >
             <v-text-field prepend-icon="mdi-email" v-model="email" name="email" :rules="[rules.required]" label="introduzaca su email"></v-text-field>
             <v-card-actions>
             	  <v-btn block color="primary" @click="confirmacion" :loading="loading">enviar</v-btn>
@@ -24,11 +21,15 @@ import { mapState , mapActions , mapMutations } from 'vuex'
 
 		name:'EmailVerifique',
 
+		mounted(){
+			this.title = 'recupera tu contraseña'
+		},
+
 		data: () => ({
 
 			email:'',
 			rules: {
-        		required: value => !!value || 'Required.'
+        		required: value => !!value || 'El email es requerido.'
       		}
 
 		}),
@@ -36,6 +37,9 @@ import { mapState , mapActions , mapMutations } from 'vuex'
 		methods:{
 
 			confirmacion(){
+				if(!this.$refs.email.validate()){// verificar la validacion
+             		 return
+          		}
 				 this.$store.commit('auth/login') // llamamos aesta mutacion que activa el loading
 				this.$store.dispatch('auth/emailVerificacion',this.email).then(res => {
 					this.$store.commit('auth/setResetEmail',res.email)
@@ -49,6 +53,14 @@ import { mapState , mapActions , mapMutations } from 'vuex'
 
 		},
 		computed:{
+			 title:{
+      			set(value){
+        			return this.$store.commit('auth/updateTitle',value)
+      			},
+      			get(){
+        			return this.$store.state.auth.title
+      			}
+    		},
 
 			 loading(){
         		return this.$store.state.auth.loading

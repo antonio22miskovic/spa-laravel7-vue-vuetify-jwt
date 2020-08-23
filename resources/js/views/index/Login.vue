@@ -1,69 +1,4 @@
-<!-- <template>
-	 <v-container>
-    <v-layout row class="text-xs-center">
-      <v-flex xs3 style="background-image: url('http://cdn.wallpapersafari.com/7/86/gqiGH7.jpg')">
-        <v-card height="500px"></v-card>
-      </v-flex>
-      <v-flex xs4 class="grey lighten-4">
-        <v-container style="position: relative;top: 13%;" class="text-xs-center">
-          <v-card flat>
-            <router-view/>
-          </v-card>
-                 <v-alert class="my-8" v-if="error != null" type="error">
-                    {{ error }}
-                 </v-alert>
-                <v-btn :to="{name:'emailVerifique'}"> olvidaste tu contraseña </v-btn>
-        </v-container>
-      </v-flex>
-    </v-layout>
-  </v-container>
-</template>
 
-<script>
-import { mapActions } from 'vuex'
-export default {
-
-		name:'Login',
-
-     created(){
-
-      this.initError()
-
-    },
-
-    data:() =>({
-
-    }),
-
-        methods:{
-
-          initError(){
-              this.error = null
-          }
-
-      },
-
-        computed:{
-
-          error:{
-
-            get(){
-
-              return this.$store.state.auth.auth_error
-
-            },
-
-            set(value){
-
-              this.$store.commit('auth/refreshError')
-
-            }
-          },
-    },
-
-}
-
-</script> -->
 <template>
   <v-app id="login" class="secondary">
     <v-content>
@@ -71,7 +6,15 @@ export default {
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4 lg4>
             <v-card class="elevation-1 pa-3">
-                <router-view/>
+              <div class="layout column align-center">
+                <img src="/logos/logo.png" alt="Vue Material Admin" width="180" height="180">
+                <h1 class="primary--text text-center">{{title}}</h1>
+              </div>
+              <v-container max-width="100" max-height="100">
+                <transition name="fade" mode="out-in">
+                  <router-view/>
+                </transition>
+              </v-container>
             </v-card>
           </v-flex>
         </v-layout>
@@ -92,13 +35,18 @@ export default {
   name:'Login',
 
   data: () => ({
-
+    transitionName:'slide-left'
   }) ,
 
   methods: {
 
   },
   computed:{
+
+    title(){
+      return this.$store.state.auth.title
+    },
+
     ErrorModal:{
       set(value){
           return this.$store.commit('auth/MostrarError',value)
@@ -112,7 +60,8 @@ export default {
       return this.$store.state.auth.auth_error
     }
 
-  }
+  },
+
 }
 </script>
 <style scoped lang="css">
@@ -125,4 +74,21 @@ export default {
     content: "";
     z-index: 0;
   }
+
+  .fade-enter {
+      opacity: 0;
+  }
+
+.fade-enter-active {
+    transition: opacity 0.50s ease;
+}
+
+.fade-leave {
+
+}
+
+.fade-leave-active {
+    transition: opacity 0.50s ease;
+    opacity: 0;
+}
 </style>

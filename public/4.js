@@ -47,10 +47,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'EmailVerifique',
   mounted: function mounted() {
@@ -59,6 +55,8 @@ __webpack_require__.r(__webpack_exports__);
         name: 'login_in'
       });
     }
+
+    this.title = 'actualiza su contraseña';
   },
   data: function data() {
     return {
@@ -66,9 +64,14 @@ __webpack_require__.r(__webpack_exports__);
       newPasswordc: '',
       hidePassword: true,
       hidePassword2: true,
-      rules: {
+      rulesnewpassword: {
         required: function required(value) {
-          return !!value || 'Required.';
+          return !!value || 'introduzaca su nueva contraseña.';
+        }
+      },
+      rulesConfirpassword: {
+        required: function required(value) {
+          return !!value || 'confirme su contraseña.';
         }
       },
       error: false
@@ -77,6 +80,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     confirmacion: function confirmacion() {
       var _this = this;
+
+      if (!this.$refs["new"].validate()) {
+        // verificar la validacion
+        return;
+      }
 
       this.$store.commit('auth/login'); // llamamos aesta mutacion que activa el loading
 
@@ -106,6 +114,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
+    title: {
+      set: function set(value) {
+        return this.$store.commit('auth/updateTitle', value);
+      },
+      get: function get() {
+        return this.$store.state.auth.title;
+      }
+    },
     loading: function loading() {
       return this.$store.state.auth.loading;
     },
@@ -140,22 +156,20 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._m(0),
-      _vm._v(" "),
       _c(
         "v-card-text",
         [
           _c(
             "v-form",
+            { ref: "new" },
             [
               _c("v-text-field", {
                 attrs: {
-                  type: _vm.hidePassword ? "password" : "text",
-                  "append-icon": _vm.hidePassword ? "mdi-eye" : "mdi-eye-off",
+                  type: "password",
                   name: "newPassword",
                   label: "nueva contraseña",
                   id: "newPassword",
-                  rules: [_vm.rules.required],
+                  rules: [_vm.rulesnewpassword.required],
                   error: _vm.error
                 },
                 on: {
@@ -177,9 +191,9 @@ var render = function() {
                   type: _vm.hidePassword2 ? "password" : "text",
                   "append-icon": _vm.hidePassword2 ? "mdi-eye" : "mdi-eye-off",
                   name: "newPasswordc",
-                  label: "confirmacion",
+                  label: "confirma la contraseña",
                   id: "newPasswordc",
-                  rules: [_vm.rules.required],
+                  rules: [_vm.rulesConfirpassword.required],
                   error: _vm.error
                 },
                 on: {
@@ -235,27 +249,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "layout column align-center" }, [
-      _c("img", {
-        attrs: {
-          src: "logos/logo.png",
-          alt: "recuperacion de password",
-          width: "180",
-          height: "180"
-        }
-      }),
-      _vm._v(" "),
-      _c("h1", { staticClass: "flex my-4 primary--text" }, [
-        _vm._v("Actualize su contraseña")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

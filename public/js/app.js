@@ -98280,7 +98280,7 @@ var routes = [//rutas
     return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./../views/index/Index */ "./resources/js/views/index/Index.vue"));
   }
 }, {
-  path: '/login',
+  path: '/login/',
   component: function component() {
     return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./../views/index/Login */ "./resources/js/views/index/Login.vue"));
   },
@@ -98291,19 +98291,19 @@ var routes = [//rutas
       return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Login_in */ "./resources/js/components/layouts/auth/Login_in.vue"));
     }
   }, {
-    path: '/email-verifique',
+    path: 'email-verifique',
     name: 'emailVerifique',
     component: function component() {
       return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/EmailVerifique */ "./resources/js/components/layouts/auth/EmailVerifique.vue"));
     }
   }, {
-    path: '/codigo-verifique',
+    path: 'codigo-verifique',
     name: 'codigoVerifique',
     component: function component() {
       return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/CodigoVerifique */ "./resources/js/components/layouts/auth/CodigoVerifique.vue"));
     }
   }, {
-    path: '/update-password',
+    path: 'update-password',
     name: 'updatePassword',
     component: function component() {
       return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/UpdatePassword */ "./resources/js/components/layouts/auth/UpdatePassword.vue"));
@@ -98390,6 +98390,7 @@ var authModule = {
       currentUser: user,
       isloggeadin: !!user,
       loading: false,
+      title: 'login',
       // errores de validacion
       auth_error: null,
       showResult: false,
@@ -98404,6 +98405,9 @@ var authModule = {
       state.auth_error = null;
     },
     loginExitoso: function loginExitoso(state, payload) {
+      //por si intentaron resetear la contraseña y no lo terminaron
+      localStorage.removeItem('email');
+      localStorage.removeItem('datos');
       state.auth_error = null;
       state.isloggeadin = true;
       state.loading = false;
@@ -98418,6 +98422,9 @@ var authModule = {
     },
     MostrarError: function MostrarError(state, payload) {
       state.showResult = payload;
+    },
+    updateTitle: function updateTitle(state, payload) {
+      state.title = payload;
     },
     logout: function logout(state) {
       localStorage.removeItem('user');

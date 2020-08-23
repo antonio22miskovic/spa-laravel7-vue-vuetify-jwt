@@ -26,18 +26,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'EmailVerifique',
+  mounted: function mounted() {
+    this.title = 'recupera tu contraseña';
+  },
   data: function data() {
     return {
       email: '',
       rules: {
         required: function required(value) {
-          return !!value || 'Required.';
+          return !!value || 'El email es requerido.';
         }
       }
     };
@@ -45,6 +45,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     confirmacion: function confirmacion() {
       var _this = this;
+
+      if (!this.$refs.email.validate()) {
+        // verificar la validacion
+        return;
+      }
 
       this.$store.commit('auth/login'); // llamamos aesta mutacion que activa el loading
 
@@ -62,6 +67,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
+    title: {
+      set: function set(value) {
+        return this.$store.commit('auth/updateTitle', value);
+      },
+      get: function get() {
+        return this.$store.state.auth.title;
+      }
+    },
     loading: function loading() {
       return this.$store.state.auth.loading;
     },
@@ -96,13 +109,12 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._m(0),
-      _vm._v(" "),
       _c(
         "v-card-text",
         [
           _c(
             "v-form",
+            { ref: "email" },
             [
               _c("v-text-field", {
                 attrs: {
@@ -159,27 +171,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "layout column align-center" }, [
-      _c("img", {
-        attrs: {
-          src: "logos/logo.png",
-          alt: "recuperacion de password",
-          width: "180",
-          height: "180"
-        }
-      }),
-      _vm._v(" "),
-      _c("h1", { staticClass: "flex my-4 primary--text" }, [
-        _vm._v("recuperacion de contraseña")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

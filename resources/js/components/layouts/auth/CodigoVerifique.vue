@@ -1,11 +1,8 @@
 <template>
 	<div>
-		<div class="layout column align-center">
-        	<img src="logos/logo.png" alt="recuperacion de password" width="180" height="180">
-        	<h1 class="flex my-4 primary--text">Confirme el codigo</h1>
-    	</div>
+
         <v-card-text>
-		<v-form >
+		<v-form ref="codigo">
             <v-text-field prepend-icon="mdi-email" v-model="codigo" :rules="[rules.required]" name="codigo" label="codigo"></v-text-field>
             <v-card-actions>
             	 <v-btn block color="primary" @click="confirmacion" :loading="loading">enviar</v-btn>
@@ -29,13 +26,14 @@
 			if (this.$store.state.auth.resetemail === null) {
 				this.$router.push({name:'login_in'})
 			}
+			this.title = 'confirmacion de codigo'
 		},
 
 		data: () => ({
 
 			codigo:'',
 			rules: {
-        		required: value => !!value || 'Required.'
+        		required: value => !!value || 'El codigo es requerido.'
       		}
 
 		}),
@@ -43,6 +41,9 @@
 		methods:{
 
 			confirmacion(){
+				if(!this.$refs.codigo.validate()){// verificar la validacion
+             		 return
+          		}
 				 this.$store.commit('auth/login') // llamamos aesta mutacion que activa el loading
 				let datos = {
 					email  : this.$store.state.auth.resetemail,
@@ -62,6 +63,14 @@
 		},
 
 		computed:{
+			 title:{
+      			set(value){
+        			return this.$store.commit('auth/updateTitle',value)
+      			},
+      			get(){
+        			return this.$store.state.auth.title
+      			}
+    		},
 
 			loading(){
         		return this.$store.state.auth.loading

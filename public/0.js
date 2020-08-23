@@ -40,70 +40,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Login',
   data: function data() {
-    return {};
+    return {
+      transitionName: 'slide-left'
+    };
   },
   methods: {},
   computed: {
+    title: function title() {
+      return this.$store.state.auth.title;
+    },
     ErrorModal: {
       set: function set(value) {
         return this.$store.commit('auth/MostrarError', value);
@@ -132,7 +80,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#login[data-v-aa4bacc6] {\n  height: 50%;\n  width: 100%;\n  position: absolute;\n  top: 0;\n  left: 0;\n  content: \"\";\n  z-index: 0;\n}\n", ""]);
+exports.push([module.i, "\n#login[data-v-aa4bacc6] {\n    height: 50%;\n    width: 100%;\n    position: absolute;\n    top: 0;\n    left: 0;\n    content: \"\";\n    z-index: 0;\n}\n.fade-enter[data-v-aa4bacc6] {\n      opacity: 0;\n}\n.fade-enter-active[data-v-aa4bacc6] {\n    transition: opacity 0.50s ease;\n}\n.fade-leave[data-v-aa4bacc6] {\n}\n.fade-leave-active[data-v-aa4bacc6] {\n    transition: opacity 0.50s ease;\n    opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -206,7 +154,44 @@ var render = function() {
                       _c(
                         "v-card",
                         { staticClass: "elevation-1 pa-3" },
-                        [_c("router-view")],
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "layout column align-center" },
+                            [
+                              _c("img", {
+                                attrs: {
+                                  src: "/logos/logo.png",
+                                  alt: "Vue Material Admin",
+                                  width: "180",
+                                  height: "180"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "h1",
+                                { staticClass: "primary--text text-center" },
+                                [_vm._v(_vm._s(_vm.title))]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            {
+                              attrs: { "max-width": "100", "max-height": "100" }
+                            },
+                            [
+                              _c(
+                                "transition",
+                                { attrs: { name: "fade", mode: "out-in" } },
+                                [_c("router-view")],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
                         1
                       )
                     ],

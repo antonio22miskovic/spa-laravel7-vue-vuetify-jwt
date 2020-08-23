@@ -17,6 +17,7 @@ export const authModule = {
 		currentUser : user,
 		isloggeadin : !!user,
 		loading     : false,
+		title       : 'login',
 
 		// errores de validacion
 		auth_error  : null,
@@ -36,7 +37,9 @@ export const authModule = {
 		},
 
 		loginExitoso(state, payload){
-
+			//por si intentaron resetear la contraseña y no lo terminaron
+			localStorage.removeItem('email')
+			localStorage.removeItem('datos')
 			state.auth_error  = null
 			state.isloggeadin = true
 			state.loading     = false
@@ -56,6 +59,10 @@ export const authModule = {
 
 			state.showResult = payload
 
+		},
+
+		updateTitle(state, payload){
+			state.title = payload
 		},
 
 		logout(state){

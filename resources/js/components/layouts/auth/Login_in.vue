@@ -1,28 +1,25 @@
 <template>
 	<div>
-		<div class="layout column align-center">
-        <img src="/logos/logo.png" alt="Vue Material Admin" width="180" height="180">
-        <h1 class="flex my-4 primary--text">Login</h1>
-    </div>
+
     <v-card-text>
-        <v-form>
+        <v-form ref="login">
 
           <v-text-field
             append-icon="mdi-account"
             name="login"
-            label="Login"
+            label="usuario"
             type="text"
             v-model="credenciales.email"
             :error="error"
-            :rules="[rules.required]"/>
+            :rules="[rulesUser.required]"/>
 
           <v-text-field
             :type="hidePassword ? 'password' : 'text'"
             :append-icon="hidePassword ? 'mdi-eye' : 'mdi-eye-off'"
             name="password"
-            label="Password"
+            label="contraseña"
             id="password"
-            :rules="[rules.required]"
+            :rules="[rulesPassword.required]"
             v-model="credenciales.password"
             :error="error"
             @click:append="hidePassword = !hidePassword"/>
@@ -49,14 +46,21 @@ import { setAuthorization } from '../../../helpers/axiosDefaultHeaders'
 
 		name:'Login_in',
 
+    mounted(){
+      this.title = 'login'
+    },
+
 		data: () => ({
 
       credenciales:{
         email:'',
         password:'',
       },
-      rules: {
-        required: value => !!value || 'Required.'
+      rulesUser: {
+        required: value => !!value || 'debe introducir su usuario.'
+      },
+      rulesPassword: {
+        required: value => !!value || 'Por favor introduzca la contraseña.'
       },
       hidePassword: true,
       error: false,
@@ -66,12 +70,11 @@ import { setAuthorization } from '../../../helpers/axiosDefaultHeaders'
 		methods:{
 
       autenticacion(){
-          this.$store.commit('auth/login') // llamamos aesta mutacion que activa el loading
-          if (!this.credenciales.email || !this.credenciales.password) {
-              this.$store.commit('auth/authError','Email y contraseña requeridos')
-              this.ErrorModal = true
-            return
+
+          if(!this.$refs.login.validate()){// verificar la validacion
+              return
           }
+          this.$store.commit('auth/login') // llamamos aesta mutacion que activa el loading
           this.$store.dispatch('auth/auth',this.credenciales).then(res => {// acciones para el login
               setAuthorization(res.access_token)// introducimos el token en el header de axios
               this.error = true
@@ -89,6 +92,14 @@ import { setAuthorization } from '../../../helpers/axiosDefaultHeaders'
 		},
 
 		computed:{
+      title:{
+            set(value){
+              return this.$store.commit('auth/updateTitle',value)
+            },
+            get(){
+              return this.$store.state.auth.title
+            }
+      },
       loading(){
         return this.$store.state.auth.loading
       },

@@ -1,19 +1,15 @@
 <template>
 	<div>
-		<div class="layout column align-center">
-        	<img src="logos/logo.png" alt="recuperacion de password" width="180" height="180">
-        	<h1 class="flex my-4 primary--text">Actualize su contraseña</h1>
-    	</div>
+
          <v-card-text>
-		<v-form >
+		<v-form ref="new">
 
              <v-text-field
-            :type="hidePassword ? 'password' : 'text'"
-            :append-icon="hidePassword ? 'mdi-eye' : 'mdi-eye-off'"
+            type="password"
             name="newPassword"
             label="nueva contraseña"
             id="newPassword"
-            :rules="[rules.required]"
+            :rules="[rulesnewpassword.required]"
             v-model="newPassword"
             :error="error"
             @click:append="hidePassword = !hidePassword"/>
@@ -23,9 +19,9 @@
             :type="hidePassword2 ? 'password' : 'text'"
             :append-icon="hidePassword2 ? 'mdi-eye' : 'mdi-eye-off'"
             name="newPasswordc"
-            label="confirmacion"
+            label="confirma la contraseña"
             id="newPasswordc"
-            :rules="[rules.required]"
+            :rules="[rulesConfirpassword.required]"
             v-model="newPasswordc"
             :error="error"
             @click:append="hidePassword2 = !hidePassword2"/>
@@ -50,6 +46,8 @@
 			if (this.$store.state.auth.resetdatos === null) {
 				this.$router.push({name:'login_in'})
 			}
+
+			this.title = 'actualiza su contraseña'
 		},
 
 		data: () => ({
@@ -58,8 +56,11 @@
 			newPasswordc:'',
 			hidePassword:true,
 			hidePassword2:true,
-			rules: {
-        		required: value => !!value || 'Required.'
+			rulesnewpassword: {
+        		required: value => !!value || 'introduzaca su nueva contraseña.'
+      		},
+      		rulesConfirpassword: {
+        		required: value => !!value || 'confirme su contraseña.'
       		},
       		error:false
 
@@ -68,6 +69,9 @@
 		methods:{
 
 			confirmacion(){
+				if(!this.$refs.new.validate()){// verificar la validacion
+             		 return
+          		}
 				 this.$store.commit('auth/login') // llamamos aesta mutacion que activa el loading
 				if (this.newPasswordc === this.newPassword) {
 					let datos = {
@@ -96,6 +100,14 @@
 		},
 
 		computed:{
+			 title:{
+      			set(value){
+        			return this.$store.commit('auth/updateTitle',value)
+      			},
+      			get(){
+        			return this.$store.state.auth.title
+      			}
+    		},
 
 			 loading(){
        	 		return this.$store.state.auth.loading

@@ -12,7 +12,7 @@ export const routes = [
   },
 
   {
-    path: '/login',
+    path: '/login/',
     component: () => import('./../views/index/Login'),
     children:[
       {
@@ -21,17 +21,17 @@ export const routes = [
         component: () => import('./../components/layouts/auth/Login_in')
       },
        {
-        path:'/email-verifique',
+        path:'email-verifique',
         name:'emailVerifique',
         component: () => import('./../components/layouts/auth/EmailVerifique')
       },
       {
-        path:'/codigo-verifique',
+        path:'codigo-verifique',
         name:'codigoVerifique',
         component: () => import('./../components/layouts/auth/CodigoVerifique')
       },
        {
-        path:'/update-password',
+        path:'update-password',
         name:'updatePassword',
         component: () => import('./../components/layouts/auth/UpdatePassword')
       },
