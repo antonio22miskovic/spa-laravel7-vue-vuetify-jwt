@@ -40,6 +40,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Login',
   data: function data() {
@@ -178,9 +181,7 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "v-container",
-                            {
-                              attrs: { "max-width": "100", "max-height": "100" }
-                            },
+                            { staticStyle: { "min-height": "320px" } },
                             [
                               _c(
                                 "transition",
@@ -190,7 +191,11 @@ var render = function() {
                               )
                             ],
                             1
-                          )
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "text-center" }, [
+                            _c("strong", [_vm._v(" Ramon Villalobos || 2020 ")])
+                          ])
                         ],
                         1
                       )

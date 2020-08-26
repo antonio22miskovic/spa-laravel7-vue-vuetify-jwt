@@ -51,7 +51,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Login_in',
@@ -211,7 +210,7 @@ var render = function() {
                     {
                       attrs: {
                         block: "",
-                        color: "primary",
+                        color: "success",
                         loading: _vm.loading
                       },
                       on: { click: _vm.autenticacion }
@@ -234,9 +233,36 @@ var render = function() {
         "div",
         { staticClass: "text-center" },
         [
-          _c("v-btn", { attrs: { text: "", to: { name: "emailVerifique" } } }, [
-            _vm._v(" Olvidaste tu Contraseña? ")
-          ])
+          _c(
+            "v-btn",
+            {
+              attrs: {
+                text: "",
+                color: "secondary",
+                to: { name: "emailVerifique" }
+              }
+            },
+            [_vm._v(" Olvidaste tu Contraseña? ")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "text-center" },
+        [
+          _c(
+            "v-btn",
+            {
+              attrs: {
+                text: "",
+                color: "secondary",
+                to: { name: "emailVerifique" }
+              }
+            },
+            [_vm._v(" Registrate ")]
+          )
         ],
         1
       )

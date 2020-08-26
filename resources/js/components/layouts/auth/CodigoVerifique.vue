@@ -5,14 +5,15 @@
 		<v-form ref="codigo">
             <v-text-field prepend-icon="mdi-email" v-model="codigo" :rules="[rules.required]" name="codigo" label="codigo"></v-text-field>
             <v-card-actions>
-            	 <v-btn block color="primary" @click="confirmacion" :loading="loading">enviar</v-btn>
+            	<v-btn color="primary" @click="actualizar" :loading="loading">actualizar</v-btn>
+            	 <v-spacer></v-spacer>
+            	<v-btn color="success" @click="confirmacion" :loading="loading">enviar</v-btn>
             </v-card-actions>
         </v-form>
     </v-card-text>
     <div class="text-center">
-    	<v-btn text :to="{name:'login_in'}">login</v-btn>
+    	<v-btn text color="secondary" :to="{name:'login_in'}">login</v-btn>
  	</div>
-
 	</div>
 </template>
 <script>
@@ -58,6 +59,23 @@
 					this.$store.commit('auth/authError',err)
 					this.ErrorModal = true
 				})
+			},
+
+			actualizar(){
+				this.codigo = null
+				let datos = { email : this.$store.state.auth.resetemail }
+				this.$store.dispatch('auth/CodigoUpdate',datos).then(res => {
+						this.$store.commit('auth/authError',res)// uso el error para anunciar la actualizacion
+						this.ErrorModal = true
+
+				})
+				.catch( err =>{
+
+					this.$store.commit('auth/authError','no se pudo actualizar el codigo')
+					this.ErrorModal = true
+
+				})
+
 			}
 
 		},

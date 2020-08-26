@@ -218,7 +218,7 @@ var render = function() {
                     {
                       attrs: {
                         block: "",
-                        color: "primary",
+                        color: "success",
                         loading: _vm.loading
                       },
                       on: { click: _vm.confirmacion }
@@ -239,9 +239,13 @@ var render = function() {
         "div",
         { staticClass: "text-center" },
         [
-          _c("v-btn", { attrs: { text: "", to: { name: "login_in" } } }, [
-            _vm._v("login")
-          ])
+          _c(
+            "v-btn",
+            {
+              attrs: { text: "", color: "secondary", to: { name: "login_in" } }
+            },
+            [_vm._v("login")]
+          )
         ],
         1
       )

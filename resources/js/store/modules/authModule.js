@@ -135,6 +135,15 @@ export const authModule = {
 			}
 		},
 
+		async codigoUpdate(context,datos){
+			try {
+				let res = await axios.post('/api/reset/update-codigo',datos)
+				return res.data
+			} catch(e) {
+				throw new Error('no se puede actualizar codigo')
+			}
+		},
+
 		// actualizar la contraseña
 		async passwordReset(context,datos){
 			try {
@@ -143,7 +152,18 @@ export const authModule = {
 			} catch(e) {
 				throw new Error('ah habido un problema al actualizar su contraseña')
 			}
+		},
+
+		// actualizar codigo
+		async CodigoUpdate(context,datos){
+			try {
+				let res = await axios.post('/api/reset/update-codigo',datos)
+				return res.data
+			} catch(e) {
+				throw new Error('no se pudo actualizar el codigo')
+			}
 		}
+
 	}
 
 }

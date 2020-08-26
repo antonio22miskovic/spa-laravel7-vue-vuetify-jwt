@@ -28,17 +28,15 @@ class JwtController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function login()
-    {
+    { // funcion para crear el token eh iniciar session
+
         $credentials = request(['email', 'password']);
-            //JWTAuth::factory()->setTTL(0010);
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'No Autorizado'],400);
-        }
-            return response()->json([
-                'access_token' => $token,
-                'user' => User::find(Auth::user()->id),
-                'token_type' => 'bearer',
-            ],200);
+        $token = JWTAuth::attempt($credentials);
+        return !$token ? response()->json(['error' => 'No Autorizado'],400) :
+                         response()->json(['access_token' => $token,
+                                  'user' => User::find(Auth::user()->id),
+                                  'token_type' => 'bearer',],200);
+
     }
 
     /**
@@ -47,11 +45,12 @@ class JwtController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
      public function getAuthUser()
-     {
+     { // obtener el usuario logeado
+
         try {
 
-                $user = JWTAuth::parseToken()->authenticate();
-             return  response()->json(['user' => $user,'status' => 200],200);
+            $user = JWTAuth::parseToken()->authenticate();
+            return  response()->json(['user' => $user,'status' => 200],200);
 
         } catch (JWTException $e) {
 
@@ -77,8 +76,9 @@ class JwtController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout()
-    {
+    {// destruir session
         try {
+
             JWTAuth::parseToken()->invalidate();
               return response()->json(['mensaje' => 'session destruida con exito','confirmacion' => true],200);
 

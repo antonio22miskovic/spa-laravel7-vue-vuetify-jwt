@@ -6,13 +6,13 @@ Vue.use(VueRouter)
 export const routes = [
 //rutas
   {
-    path: '/',
+    path:'/',
     name:'index',
     component: () => import('./../views/index/Index'),
   },
 
   {
-    path: '/login/',
+    path:'/login/',
     component: () => import('./../views/index/Login'),
     children:[
       {
@@ -30,7 +30,7 @@ export const routes = [
         name:'codigoVerifique',
         component: () => import('./../components/layouts/auth/CodigoVerifique')
       },
-       {
+      {
         path:'update-password',
         name:'updatePassword',
         component: () => import('./../components/layouts/auth/UpdatePassword')
@@ -39,9 +39,9 @@ export const routes = [
     ]
  },
  {
-    path: '/registro',
-    name: 'registro',
-    component: () => import('./../views/index/Registro')
+    path:'/registro',
+    name:'registro',
+    component: () => import('./../components/layouts/auth/Registro')
  },
  {
     path:'/home',

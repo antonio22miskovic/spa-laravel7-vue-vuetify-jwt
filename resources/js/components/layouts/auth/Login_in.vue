@@ -24,20 +24,19 @@
             :error="error"
             @click:append="hidePassword = !hidePassword"/>
              <v-card-actions>
-          <v-btn block color="primary" @click="autenticacion" :loading="loading">Login</v-btn>
+          <v-btn block color="success" @click="autenticacion" :loading="loading">Login</v-btn>
           <br>
    </v-card-actions>
 
         </v-form>
     </v-card-text>
     <div class="text-center">
-      <v-btn text  :to="{name:'emailVerifique'}"> Olvidaste tu Contraseña? </v-btn>
+      <v-btn text color="secondary"  :to="{name:'emailVerifique'}"> Olvidaste tu Contraseña? </v-btn>
     </div>
-
-
-
+    <div class="text-center">
+      <v-btn text color="secondary" :to="{name:'emailVerifique'}"> Registrate </v-btn>
+    </div>
 	</div>
-
 </template>
 
 <script>

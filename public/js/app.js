@@ -98213,8 +98213,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify_lib__WEBPACK_IMPORTED_MOD
     },
     themes: {
       light: {
-        primary: '#ee44aa',
-        secondary: '#424242',
+        primary: '#7986CB',
+        secondary: '#6200EA',
         accent: '#82B1FF',
         error: '#FF5252',
         info: '#2196F3',
@@ -98313,7 +98313,7 @@ var routes = [//rutas
   path: '/registro',
   name: 'registro',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./../views/index/Registro */ "./resources/js/views/index/Registro.vue"));
+    return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Registro */ "./resources/js/components/layouts/auth/Registro.vue"));
   }
 }, {
   path: '/home',
@@ -98541,8 +98541,7 @@ var authModule = {
         }, _callee3, null, [[0, 7]]);
       }))();
     },
-    // actualizar la contraseña
-    passwordReset: function passwordReset(context, datos) {
+    codigoUpdate: function codigoUpdate(context, datos) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
@@ -98551,7 +98550,7 @@ var authModule = {
               case 0:
                 _context4.prev = 0;
                 _context4.next = 3;
-                return axios.post('/api/reset/update-password', datos);
+                return axios.post('/api/reset/update-codigo', datos);
 
               case 3:
                 res = _context4.sent;
@@ -98560,7 +98559,7 @@ var authModule = {
               case 7:
                 _context4.prev = 7;
                 _context4.t0 = _context4["catch"](0);
-                throw new Error('ah habido un problema al actualizar su contraseña');
+                throw new Error('no se puede actualizar codigo');
 
               case 10:
               case "end":
@@ -98568,6 +98567,64 @@ var authModule = {
             }
           }
         }, _callee4, null, [[0, 7]]);
+      }))();
+    },
+    // actualizar la contraseña
+    passwordReset: function passwordReset(context, datos) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.prev = 0;
+                _context5.next = 3;
+                return axios.post('/api/reset/update-password', datos);
+
+              case 3:
+                res = _context5.sent;
+                return _context5.abrupt("return", res.data);
+
+              case 7:
+                _context5.prev = 7;
+                _context5.t0 = _context5["catch"](0);
+                throw new Error('ah habido un problema al actualizar su contraseña');
+
+              case 10:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, null, [[0, 7]]);
+      }))();
+    },
+    // actualizar codigo
+    CodigoUpdate: function CodigoUpdate(context, datos) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.prev = 0;
+                _context6.next = 3;
+                return axios.post('/api/reset/update-codigo', datos);
+
+              case 3:
+                res = _context6.sent;
+                return _context6.abrupt("return", res.data);
+
+              case 7:
+                _context6.prev = 7;
+                _context6.t0 = _context6["catch"](0);
+                throw new Error('no se pudo actualizar el codigo');
+
+              case 10:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, null, [[0, 7]]);
       }))();
     }
   }

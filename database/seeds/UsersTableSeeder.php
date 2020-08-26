@@ -30,5 +30,14 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make(12345)
 
         ]);
+
+         User::create([
+
+            'name' => 'ramon',
+            'rol_id' => 1,
+            'email' => 'villalobosantonio79@gmail.com',
+            'password' => Hash::make(12345)
+
+        ]);
     }
 }

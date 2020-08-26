@@ -5,12 +5,12 @@
 		<v-form ref="email" >
             <v-text-field prepend-icon="mdi-email" v-model="email" name="email" :rules="[rules.required]" label="introduzaca su email"></v-text-field>
             <v-card-actions>
-            	  <v-btn block color="primary" @click="confirmacion" :loading="loading">enviar</v-btn>
+            	  <v-btn block color="success" @click="confirmacion" :loading="loading">enviar</v-btn>
             </v-card-actions>
         </v-form>
     </v-card-text>
       <div class="text-center">
-    	<v-btn text :to="{name:'login_in'}">login</v-btn>
+    	<v-btn text  color="secondary" :to="{name:'login_in'}">login</v-btn>
  	</div>
 	</div>
 </template>

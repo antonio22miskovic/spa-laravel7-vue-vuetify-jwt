@@ -10,11 +10,14 @@
                 <img src="/logos/logo.png" alt="Vue Material Admin" width="180" height="180">
                 <h1 class="primary--text text-center">{{title}}</h1>
               </div>
-              <v-container max-width="100" max-height="100">
+              <v-container style="min-height: 320px">
                 <transition name="fade" mode="out-in">
                   <router-view/>
                 </transition>
               </v-container>
+                <div class="text-center">
+                  <strong> Ramon Villalobos || 2020 </strong>
+                </div>
             </v-card>
           </v-flex>
         </v-layout>

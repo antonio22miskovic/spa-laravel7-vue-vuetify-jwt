@@ -26,6 +26,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'EmailVerifique',
   mounted: function mounted() {
@@ -72,6 +73,24 @@ __webpack_require__.r(__webpack_exports__);
         _this.$store.commit('auth/authError', err);
 
         _this.ErrorModal = true;
+      });
+    },
+    actualizar: function actualizar() {
+      var _this2 = this;
+
+      this.codigo = null;
+      var datos = {
+        email: this.$store.state.auth.resetemail
+      };
+      this.$store.dispatch('auth/CodigoUpdate', datos).then(function (res) {
+        _this2.$store.commit('auth/authError', res); // uso el error para anunciar la actualizacion
+
+
+        _this2.ErrorModal = true;
+      })["catch"](function (err) {
+        _this2.$store.commit('auth/authError', 'no se pudo actualizar el codigo');
+
+        _this2.ErrorModal = true;
       });
     }
   },
@@ -147,11 +166,18 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: {
-                        block: "",
-                        color: "primary",
-                        loading: _vm.loading
-                      },
+                      attrs: { color: "primary", loading: _vm.loading },
+                      on: { click: _vm.actualizar }
+                    },
+                    [_vm._v("actualizar")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "success", loading: _vm.loading },
                       on: { click: _vm.confirmacion }
                     },
                     [_vm._v("enviar")]
@@ -170,9 +196,13 @@ var render = function() {
         "div",
         { staticClass: "text-center" },
         [
-          _c("v-btn", { attrs: { text: "", to: { name: "login_in" } } }, [
-            _vm._v("login")
-          ])
+          _c(
+            "v-btn",
+            {
+              attrs: { text: "", color: "secondary", to: { name: "login_in" } }
+            },
+            [_vm._v("login")]
+          )
         ],
         1
       )
@@ -204,7 +234,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
 /* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/index.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
 
 
 
@@ -230,7 +261,8 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["VBtn"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardText"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_6__["VForm"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_7__["VTextField"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["VBtn"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardText"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_6__["VForm"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VSpacer"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_8__["VTextField"]})
 
 
 /* hot reload */
