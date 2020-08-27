@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[3],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[12],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/layouts/auth/Login_in.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************************************************************************!*\
@@ -255,7 +255,11 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { text: "", color: "secondary", to: { name: "registro" } }
+              attrs: {
+                text: "",
+                color: "secondary",
+                to: { name: "emailVerifique" }
+              }
             },
             [_vm._v(" Registrate ")]
           )

@@ -1,6 +1,6 @@
 <?php
 
-use App\Rol;
+use App\Models\Rol;
 use Illuminate\Database\Seeder;
 
 class RolSeeder extends Seeder

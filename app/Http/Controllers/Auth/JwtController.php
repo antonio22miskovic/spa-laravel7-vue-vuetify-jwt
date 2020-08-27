@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Http\Requests\UserRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -19,7 +21,7 @@ class JwtController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('jwt.init', ['except' => ['login']]);
+        $this->middleware('jwt.init', ['except' => ['login','store']]);
     }
 
     /**
@@ -88,5 +90,19 @@ class JwtController extends Controller
 
     }
 
+    public function store(UserRequest $request)
+    {
+        try {
+        $user = User::create([
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'password' => Hash::make($request['password'])
+            ]);
+            return response()->json(['mensaje' => 'se creo con exito el usuario', 'user' => $user],200);
+        } catch (Exception $e) {
+            return response()->json(['mensaje' => 'hubo un error', 'error' => $e],500);
+        }
+
+    }
 
 }

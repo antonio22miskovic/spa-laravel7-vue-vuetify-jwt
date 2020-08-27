@@ -15,9 +15,10 @@ Route::group(['prefix' => 'auth'], function ($router) {
     	Route::post('logout', 'Auth\JwtController@logout');
         Route::post('refresh', 'Auth\JwtController@refresh');
     	Route::post('get-auth-user', 'Auth\JwtController@getAuthUser');
+    	Route::post('registro/user', 'Auth\JwtController@store');
 
 	});
-	Route::apiresource('producto','ProductoController');
+
 
 // rutas de reseteo de contraseña
 Route::group(['prefix' => 'reset'], function ($router) {

@@ -7,20 +7,14 @@ export const routes = [
 //rutas
   {
     path:'/',
-    name:'index',
     component: () => import('./../views/index/Index'),
-  },
-
-  {
-    path:'/login/',
-    component: () => import('./../views/index/Login'),
     children:[
       {
         path:'/',
         name:'login_in',
         component: () => import('./../components/layouts/auth/Login_in')
       },
-       {
+      {
         path:'email-verifique',
         name:'emailVerifique',
         component: () => import('./../components/layouts/auth/EmailVerifique')
@@ -35,15 +29,14 @@ export const routes = [
         name:'updatePassword',
         component: () => import('./../components/layouts/auth/UpdatePassword')
       },
-
-    ]
- },
- {
-    path:'/registro',
-    name:'registro',
-    component: () => import('./../components/layouts/auth/Registro')
- },
- {
+      {
+        path:'/registro',
+        name:'registro',
+        component: () => import('./../components/layouts/auth/Registro')
+      },
+    ]// fin del children del index
+  },
+  {
     path:'/home',
     name:'home',
     component: () => import('./../views/Home'),

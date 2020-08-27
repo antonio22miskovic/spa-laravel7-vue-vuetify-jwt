@@ -9,9 +9,9 @@ export function Interceptor(store, router){
 
 		if (requiresAuth && !currentUser) {
 
-			next('/login')
+			next('/')
 
-		}else if(to.path == '/login' && currentUser){
+		}else if(to.path == '/' && currentUser){
 
 			next('/home')
 

@@ -34,7 +34,7 @@
       <v-btn text color="secondary"  :to="{name:'emailVerifique'}"> Olvidaste tu Contraseña? </v-btn>
     </div>
     <div class="text-center">
-      <v-btn text color="secondary" :to="{name:'emailVerifique'}"> Registrate </v-btn>
+      <v-btn text color="secondary" :to="{name:'registro'}"> Registrate </v-btn>
     </div>
 	</div>
 </template>

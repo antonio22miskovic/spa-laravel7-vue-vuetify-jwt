@@ -1,7 +1,6 @@
 <template>
 	<div>
-
-         <v-card-text>
+    <v-card-text min-height="180">
 		<v-form ref="email" >
             <v-text-field prepend-icon="mdi-email" v-model="email" name="email" :rules="[rules.required]" label="introduzaca su email"></v-text-field>
             <v-card-actions>
