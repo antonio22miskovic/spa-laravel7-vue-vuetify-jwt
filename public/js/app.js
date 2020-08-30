@@ -97729,7 +97729,7 @@ var authModule = {
     };
   },
   mutations: {
-    login: function login(state) {
+    loading: function loading(state) {
       state.loading = true;
       state.auth_error = null;
     },
@@ -97777,6 +97777,9 @@ var authModule = {
       state.loading = false;
       state.resetemail = null;
       state.resetdatos = null;
+    },
+    loadingfalse: function loadingfalse(state) {
+      state.loading = false;
     }
   },
   getters: {},

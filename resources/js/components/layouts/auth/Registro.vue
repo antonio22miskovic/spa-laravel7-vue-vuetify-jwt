@@ -8,7 +8,7 @@
         			append-icon="mdi-account"
       				v-model="data.name"
       				:counter="10"
-      				:rules="[(validation === null) || validation.name[0],
+      				:rules="[(validation.user === null) || validation.user,
         					v => !!v || 'Introduzaca el nombre del usuario',
         					v => (v && v.length <= 10) || 'No puedes tener un usuario con mas de 10 caracteres']"
       				label="usuario"
@@ -18,7 +18,9 @@
    				<v-text-field
    					append-icon="mdi-email"
       				v-model="data.email"
-      				:rules="emailRules"
+      				:rules="[(validation.email === null) || validation.email,
+                  rules.required,
+                  rules.email]"
       				label="E-mail"
       				required
    		 		></v-text-field>
@@ -44,10 +46,10 @@
             		v-model="confirm_password"
             		@click:append="hidePassword = !hidePassword"/>
 
-             <v-card-actions>
-         		<v-btn color="warning" @click="reset"> clear </v-btn>
-          		<v-spacer></v-spacer>
-          		<v-btn color="secondary" @click="registrar"> registrar </v-btn>
+            <v-card-actions>
+         		    <v-btn color="warning" @click="reset"> clear </v-btn>
+          		  <v-spacer></v-spacer>
+          	    <v-btn color="secondary" @click="registrar" :loading='loading'> registrar </v-btn>
           	</v-card-actions>
         	</v-form>
     	</v-card-text>
@@ -60,53 +62,90 @@
 	export default{
 
 		name:'Registro',
+
 		mounted(){
+
 			this.title = 'Registrate es gratis!!!'
+
 		},
 
 		data: () => ({
+
 			data:{
 				name:'',
 				email:'',
 				password:''
 			},
-      		nameRules: [
-
-      		],
-      		emailRules: [
-        		v => !!v || 'Debe introducir un E-mail',
-        		v => /.+@.+\..+/.test(v) || 'Introduzaca un E-mail Valido',
-      		],
 			confirm_password:'',
 			hidePassword:true,
-			validation:null
+      validation:{
+        user:null,
+        email:null
+      },
+      rules:{
+        required: value => !!value || 'Introduzca un E-mail.',
+        email: value => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return pattern.test(value) || 'E-mail Invalido.'
+        },
+      },
+
 		}),
 
 
 		methods:{
+
 			registrar(){
-				if(!this.$refs.registro.validate()){// verificar la validacion
-             		 return
-          		}
 
-          		this.$store.dispatch('auth/store',this.data).then(res => {
-          			if (res.validation === undefined) {
-          				console.log('usuario creado con exito')
-          			}else{
-          				this.validation = res.validation
-          				console.log(this.validation)
-          			}
+        if (this.$refs.registro.resetValidation()) {
+            return
+        }
+        this.$store.commit('auth/loading') // llamamos aesta mutacion que activa el loading
+        this.$store.dispatch('auth/store',this.data).then(res => {
 
-          		})
-          		.catch(err => console.log(err))
+          if (res.validation === undefined) {// comprobamos si hay errores de validacion
+              this.$store.commit('auth/loadingfalse')
+          		console.log('usuario creado con exito')
+              this.reset()
 
+          }else{// si hay errores  veremos cual es
+            this.validacion(res.validation)
+            this.$store.commit('auth/loadingfalse')
+          }
+
+        })
+        .catch(err => console.log(err))
+        this.$store.commit('auth/loadingfalse')
 			},
+
 			reset(){
         		this.$refs.registro.reset()
       		},
-      		resetValidation () {
-        		this.$refs.registro.resetValidation()
+
+      resetValidation(){
+        	 return this.$refs.registro.resetValidation()
       		},
+
+      validacion(datos){
+
+        if (datos.name !== undefined) {// primero el usuario
+          this.validation.user = datos.name[0]
+        }else{
+          this.validation.user = null
+        }
+
+        if (datos.email !== undefined) {// segundo el email
+          this.validation.email = datos.email[0]
+        }else{
+           this.validation.email = null
+        }
+
+        if(!this.$refs.registro.validate()){// verificar la validacion
+           return
+        }
+
+      }
+
 		},
 
 
@@ -118,7 +157,10 @@
       			get(){
         			return this.$store.state.auth.title
       			}
-    		},
+    	},
+      loading(){
+        return this.$store.state.auth.loading
+      },
 		}
 	}
 </script>

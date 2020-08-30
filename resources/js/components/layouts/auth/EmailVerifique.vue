@@ -2,7 +2,7 @@
 	<div>
     <v-card-text min-height="180">
 		<v-form ref="email" >
-            <v-text-field prepend-icon="mdi-email" v-model="email" name="email" :rules="[rules.required]" label="introduzaca su email"></v-text-field>
+            <v-text-field prepend-icon="mdi-email" v-model="email" name="email" :rules="rules" label="introduzaca su email"></v-text-field>
             <v-card-actions>
             	  <v-btn block color="success" @click="confirmacion" :loading="loading">enviar</v-btn>
             </v-card-actions>
@@ -27,9 +27,10 @@ import { mapState , mapActions , mapMutations } from 'vuex'
 		data: () => ({
 
 			email:'',
-			rules: {
-        		required: value => !!value || 'El email es requerido.'
-      		}
+			rules:[
+        		value => !!value || 'El email es requerido.',
+        		v => /.+@.+\..+/.test(v) || 'Introduzaca un E-mail Valido'
+      		]
 
 		}),
 
@@ -39,7 +40,7 @@ import { mapState , mapActions , mapMutations } from 'vuex'
 				if(!this.$refs.email.validate()){// verificar la validacion
              		 return
           		}
-				 this.$store.commit('auth/login') // llamamos aesta mutacion que activa el loading
+				this.$store.commit('auth/loading') // llamamos aesta mutacion que activa el loading
 				this.$store.dispatch('auth/emailVerificacion',this.email).then(res => {
 					this.$store.commit('auth/setResetEmail',res.email)
 					this.$router.push({name:'codigoVerifique'})

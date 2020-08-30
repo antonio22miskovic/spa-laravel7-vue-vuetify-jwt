@@ -72,7 +72,7 @@
 				if(!this.$refs.new.validate()){// verificar la validacion
              		 return
           		}
-				 this.$store.commit('auth/login') // llamamos aesta mutacion que activa el loading
+				this.$store.commit('auth/loading') // llamamos aesta mutacion que activa el loading
 				if (this.newPasswordc === this.newPassword) {
 					let datos = {
 						email       : this.$store.state.auth.resetdatos.email,

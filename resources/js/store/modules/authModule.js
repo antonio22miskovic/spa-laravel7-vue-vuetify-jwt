@@ -30,7 +30,7 @@ export const authModule = {
 
 	mutations:{
 
-		login(state){
+		loading(state){
 
 			state.loading    = true
 			state.auth_error = null
@@ -97,6 +97,10 @@ export const authModule = {
 			state.resetemail = null
 			state.resetdatos = null
 
+		},
+
+		loadingfalse(state){
+			state.loading = false
 		}
 
 	},

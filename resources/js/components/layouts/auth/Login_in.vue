@@ -73,7 +73,7 @@ import { setAuthorization } from '../../../helpers/axiosDefaultHeaders'
           if(!this.$refs.login.validate()){// verificar la validacion
               return
           }
-          this.$store.commit('auth/login') // llamamos aesta mutacion que activa el loading
+          this.$store.commit('auth/loading') // llamamos aesta mutacion que activa el loading
           this.$store.dispatch('auth/auth',this.credenciales).then(res => {// acciones para el login
               setAuthorization(res.access_token)// introducimos el token en el header de axios
               this.error = true

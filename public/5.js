@@ -67,6 +67,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Registro',
   mounted: function mounted() {
@@ -79,42 +81,77 @@ __webpack_require__.r(__webpack_exports__);
         email: '',
         password: ''
       },
-      nameRules: [],
-      emailRules: [function (v) {
-        return !!v || 'Debe introducir un E-mail';
-      }, function (v) {
-        return /.+@.+\..+/.test(v) || 'Introduzaca un E-mail Valido';
-      }],
       confirm_password: '',
       hidePassword: true,
-      validation: null
+      validation: {
+        user: null,
+        email: null
+      },
+      rules: {
+        required: function required(value) {
+          return !!value || 'Introduzca un E-mail.';
+        },
+        email: function email(value) {
+          var pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || 'E-mail Invalido.';
+        }
+      }
     };
   },
   methods: {
     registrar: function registrar() {
       var _this = this;
 
-      if (!this.$refs.registro.validate()) {
-        // verificar la validacion
+      if (this.$refs.registro.resetValidation()) {
         return;
       }
 
+      this.$store.commit('auth/loading'); // llamamos aesta mutacion que activa el loading
+
       this.$store.dispatch('auth/store', this.data).then(function (res) {
         if (res.validation === undefined) {
+          // comprobamos si hay errores de validacion
+          _this.$store.commit('auth/loadingfalse');
+
           console.log('usuario creado con exito');
+
+          _this.reset();
         } else {
-          _this.validation = res.validation;
-          console.log(_this.validation);
+          // si hay errores  veremos cual es
+          _this.validacion(res.validation);
+
+          _this.$store.commit('auth/loadingfalse');
         }
       })["catch"](function (err) {
         return console.log(err);
       });
+      this.$store.commit('auth/loadingfalse');
     },
     reset: function reset() {
       this.$refs.registro.reset();
     },
     resetValidation: function resetValidation() {
-      this.$refs.registro.resetValidation();
+      return this.$refs.registro.resetValidation();
+    },
+    validacion: function validacion(datos) {
+      if (datos.name !== undefined) {
+        // primero el usuario
+        this.validation.user = datos.name[0];
+      } else {
+        this.validation.user = null;
+      }
+
+      if (datos.email !== undefined) {
+        // segundo el email
+        this.validation.email = datos.email[0];
+      } else {
+        this.validation.email = null;
+      }
+
+      if (!this.$refs.registro.validate()) {
+        // verificar la validacion
+        return;
+      }
     }
   },
   computed: {
@@ -125,6 +162,9 @@ __webpack_require__.r(__webpack_exports__);
       get: function get() {
         return this.$store.state.auth.title;
       }
+    },
+    loading: function loading() {
+      return this.$store.state.auth.loading;
     }
   }
 });
@@ -161,7 +201,7 @@ var render = function() {
                   "append-icon": "mdi-account",
                   counter: 10,
                   rules: [
-                    _vm.validation === null || _vm.validation.name[0],
+                    _vm.validation.user === null || _vm.validation.user,
                     function(v) {
                       return !!v || "Introduzaca el nombre del usuario"
                     },
@@ -187,7 +227,11 @@ var render = function() {
               _c("v-text-field", {
                 attrs: {
                   "append-icon": "mdi-email",
-                  rules: _vm.emailRules,
+                  rules: [
+                    _vm.validation.email === null || _vm.validation.email,
+                    _vm.rules.required,
+                    _vm.rules.email
+                  ],
                   label: "E-mail",
                   required: ""
                 },
@@ -262,7 +306,7 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { color: "secondary" },
+                      attrs: { color: "secondary", loading: _vm.loading },
                       on: { click: _vm.registrar }
                     },
                     [_vm._v(" registrar ")]

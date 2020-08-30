@@ -34,11 +34,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       email: '',
-      rules: {
-        required: function required(value) {
-          return !!value || 'El email es requerido.';
-        }
-      }
+      rules: [function (value) {
+        return !!value || 'El email es requerido.';
+      }, function (v) {
+        return /.+@.+\..+/.test(v) || 'Introduzaca un E-mail Valido';
+      }]
     };
   },
   methods: {
@@ -50,7 +50,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      this.$store.commit('auth/login'); // llamamos aesta mutacion que activa el loading
+      this.$store.commit('auth/loading'); // llamamos aesta mutacion que activa el loading
 
       this.$store.dispatch('auth/emailVerificacion', this.email).then(function (res) {
         _this.$store.commit('auth/setResetEmail', res.email);
@@ -120,7 +120,7 @@ var render = function() {
                 attrs: {
                   "prepend-icon": "mdi-email",
                   name: "email",
-                  rules: [_vm.rules.required],
+                  rules: _vm.rules,
                   label: "introduzaca su email"
                 },
                 model: {

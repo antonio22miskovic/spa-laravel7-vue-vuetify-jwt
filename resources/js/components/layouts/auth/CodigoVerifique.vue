@@ -42,10 +42,11 @@
 		methods:{
 
 			confirmacion(){
+
 				if(!this.$refs.codigo.validate()){// verificar la validacion
              		 return
           		}
-				 this.$store.commit('auth/login') // llamamos aesta mutacion que activa el loading
+				this.$store.commit('auth/loading')// llamamos aesta mutacion que activa el loading
 				let datos = {
 					email  : this.$store.state.auth.resetemail,
 					codigo : this.codigo

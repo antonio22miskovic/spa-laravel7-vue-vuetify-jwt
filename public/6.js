@@ -86,7 +86,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      this.$store.commit('auth/login'); // llamamos aesta mutacion que activa el loading
+      this.$store.commit('auth/loading'); // llamamos aesta mutacion que activa el loading
 
       if (this.newPasswordc === this.newPassword) {
         var datos = {
