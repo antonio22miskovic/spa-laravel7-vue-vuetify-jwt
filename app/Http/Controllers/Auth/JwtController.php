@@ -91,7 +91,7 @@ class JwtController extends Controller
     }
 
     public function store(UserRequest $request)
-    {
+    {// registro de usuario
         try {
         $user = User::create([
                 'name' => $request['name'],

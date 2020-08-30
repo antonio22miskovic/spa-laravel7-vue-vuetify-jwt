@@ -97610,37 +97610,37 @@ var routes = [//rutas
 {
   path: '/',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./../views/index/Index */ "./resources/js/views/index/Index.vue"));
+    return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./../views/index/Index */ "./resources/js/views/index/Index.vue"));
   },
   children: [{
     path: '/',
     name: 'login_in',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Login_in */ "./resources/js/components/layouts/auth/Login_in.vue"));
+      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Login_in */ "./resources/js/components/layouts/auth/Login_in.vue"));
     }
   }, {
     path: 'email-verifique',
     name: 'emailVerifique',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/EmailVerifique */ "./resources/js/components/layouts/auth/EmailVerifique.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/EmailVerifique */ "./resources/js/components/layouts/auth/EmailVerifique.vue"));
     }
   }, {
     path: 'codigo-verifique',
     name: 'codigoVerifique',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/CodigoVerifique */ "./resources/js/components/layouts/auth/CodigoVerifique.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/CodigoVerifique */ "./resources/js/components/layouts/auth/CodigoVerifique.vue"));
     }
   }, {
     path: 'update-password',
     name: 'updatePassword',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/UpdatePassword */ "./resources/js/components/layouts/auth/UpdatePassword.vue"));
+      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/UpdatePassword */ "./resources/js/components/layouts/auth/UpdatePassword.vue"));
     }
   }, {
     path: '/registro',
     name: 'registro',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Registro */ "./resources/js/components/layouts/auth/Registro.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Registro */ "./resources/js/components/layouts/auth/Registro.vue"));
     }
   }] // fin del children del index
 
@@ -97648,7 +97648,7 @@ var routes = [//rutas
   path: '/home',
   name: 'home',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./../views/Home */ "./resources/js/views/Home.vue"));
+    return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./../views/Home */ "./resources/js/views/Home.vue"));
   },
   meta: {
     requiresAuth: true
@@ -97954,6 +97954,35 @@ var authModule = {
             }
           }
         }, _callee6, null, [[0, 7]]);
+      }))();
+    },
+    // registro del usuario
+    store: function store(context, datos) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.prev = 0;
+                _context7.next = 3;
+                return axios.post('/api/auth/registro/user', datos);
+
+              case 3:
+                res = _context7.sent;
+                return _context7.abrupt("return", res.data);
+
+              case 7:
+                _context7.prev = 7;
+                _context7.t0 = _context7["catch"](0);
+                return _context7.abrupt("return", _context7.t0);
+
+              case 10:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, null, [[0, 7]]);
       }))();
     }
   }

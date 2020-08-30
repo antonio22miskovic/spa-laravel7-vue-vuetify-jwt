@@ -8,7 +8,9 @@
         			append-icon="mdi-account"
       				v-model="data.name"
       				:counter="10"
-      				:rules="nameRules"
+      				:rules="[(validation === null) || validation.name[0],
+        					v => !!v || 'Introduzaca el nombre del usuario',
+        					v => (v && v.length <= 10) || 'No puedes tener un usuario con mas de 10 caracteres']"
       				label="usuario"
       				required
     			></v-text-field>
@@ -69,8 +71,7 @@
 				password:''
 			},
       		nameRules: [
-        		v => !!v || 'Introduzaca el nombre del usuario',
-        		v => (v && v.length <= 10) || 'No puedes tener un usuario con mas de 10 caracteres',
+
       		],
       		emailRules: [
         		v => !!v || 'Debe introducir un E-mail',
@@ -78,6 +79,7 @@
       		],
 			confirm_password:'',
 			hidePassword:true,
+			validation:null
 		}),
 
 
@@ -86,6 +88,17 @@
 				if(!this.$refs.registro.validate()){// verificar la validacion
              		 return
           		}
+
+          		this.$store.dispatch('auth/store',this.data).then(res => {
+          			if (res.validation === undefined) {
+          				console.log('usuario creado con exito')
+          			}else{
+          				this.validation = res.validation
+          				console.log(this.validation)
+          			}
+
+          		})
+          		.catch(err => console.log(err))
 
 			},
 			reset(){

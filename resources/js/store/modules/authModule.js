@@ -162,6 +162,16 @@ export const authModule = {
 			} catch(e) {
 				throw new Error('no se pudo actualizar el codigo')
 			}
+		},
+
+		// registro del usuario
+		async store(context,datos){
+			try {
+				let res = await axios.post('/api/auth/registro/user',datos)
+				  	return res.data
+			} catch(e) {
+				return e
+			}
 		}
 
 	}
