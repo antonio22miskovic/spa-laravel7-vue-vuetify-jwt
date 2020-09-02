@@ -76,10 +76,10 @@
 		computed: {
       drawerOn:{
         get(){
-          return this.$store.state.drawer
+          return this.$store.state.ADMIN_HOME.drawer
         },
         set(value){
-           return this.$store.commit('updatedrawer', value)
+           return this.$store.commit('ADMIN_HOME/SET_DRAWER', value)
         }
       },
 

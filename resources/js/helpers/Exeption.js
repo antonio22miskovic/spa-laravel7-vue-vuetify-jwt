@@ -27,7 +27,7 @@ export function handler(store, router){
   		let headers = response.headers
   		console.log(headers)
   		if (headers.authorization !== undefined) {
-  				let updateToken = store.state.auth.currentUser
+  				let updateToken = store.state.AUTH.currentUser
   				updateToken.token = headers.authorization
   			localStorage.setItem('user',JSON.stringify(updateToken))
    			setAuthorization(headers.authorization)

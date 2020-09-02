@@ -5,7 +5,7 @@ export function Interceptor(store, router){
 	router.beforeEach((to, from, next) => {
 
 		const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-		const currentUser = store.state.auth.currentUser// acedemos al estado del modulo auth
+		const currentUser = store.state.AUTH.currentUser// acedemos al estado del modulo auth
 
 		if (requiresAuth && !currentUser) {
 

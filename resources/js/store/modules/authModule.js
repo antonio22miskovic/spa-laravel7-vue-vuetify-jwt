@@ -30,13 +30,15 @@ export const authModule = {
 
 	mutations:{
 
-		loading(state){
+		LOADING(state){
 
 			state.loading    = true
 			state.auth_error = null
+
 		},
 
-		loginExitoso(state, payload){
+		lOGIN_SUCCESS(state, payload){
+
 			//por si intentaron resetear la contraseña y no lo terminaron
 			localStorage.removeItem('email')
 			localStorage.removeItem('datos')
@@ -48,24 +50,26 @@ export const authModule = {
 
 		},
 
-		authError(state, payload){
+		AUTH_ERROR(state, payload){
 
 			state.loading    = false
 			state.auth_error = payload
 
 		},
 
-		MostrarError(state, payload){
+		ERROR_ON(state, payload){
 
 			state.showResult = payload
 
 		},
 
-		updateTitle(state, payload){
+		TITLE(state, payload){
+
 			state.title = payload
+
 		},
 
-		logout(state){
+		lOGOUT(state){
 
 			localStorage.removeItem('user')
 			state.isloggeadin = false
@@ -75,21 +79,23 @@ export const authModule = {
 
 		// recuperar contraseña
 
-		setResetEmail(state,payload){
+		SET_RESET_EMAIL(state,payload){
+
 			state.resetemail = payload
 			state.loading    = false
 			localStorage.setItem('email',JSON.stringify(payload))
 
 		},
 
-		setResetDatos(state,payload){
+		SET_RESET_DATOS(state,payload){
+
 			state.resetdatos = payload
 			state.loading    = false
 			localStorage.setItem('datos',JSON.stringify(payload))
 
 		},
 
-		clearReset(state){
+		CLEAR_RESET(state){
 
 			localStorage.removeItem('email')
 			localStorage.removeItem('datos')
@@ -99,8 +105,10 @@ export const authModule = {
 
 		},
 
-		loadingfalse(state){
+		LOADING_FALSE(state){
+
 			state.loading = false
+
 		}
 
 	},
@@ -109,7 +117,7 @@ export const authModule = {
 
 	actions:{
 
-		async auth(context,credenciales){
+		async AUTH(context,credenciales){
 			try {
 				let res = await axios.post('/api/auth/login',credenciales)
 				return res.data
@@ -120,7 +128,7 @@ export const authModule = {
 
 		/// RECUPERACION DE CONTRASEÑA
 			// verificacion del email
-		async emailVerificacion(context,email){
+		async EMAIL_RESET_PASSWORD(context,email){
 			try {
 				let res = await axios.post('/api/reset/email-vereificacion',{email:email})
 				return res.data
@@ -129,8 +137,8 @@ export const authModule = {
 			}
 		},
 
-			// verificacion del email
-		async codigoVerificacion(context,datos){
+			// verificacion codigo
+		async CODIGO_RESET_PASSWORD(context,datos){
 			try {
 				let res = await axios.post('/api/reset/codigo-vereificacion',datos)
 				return res.data
@@ -139,7 +147,7 @@ export const authModule = {
 			}
 		},
 
-		async codigoUpdate(context,datos){
+		async UPDATE_CODIGO_RESET_PASSWORD(context,datos){
 			try {
 				let res = await axios.post('/api/reset/update-codigo',datos)
 				return res.data
@@ -149,7 +157,7 @@ export const authModule = {
 		},
 
 		// actualizar la contraseña
-		async passwordReset(context,datos){
+		async PASSWORD_UPDATE_RESET_PASSWORD(context,datos){
 			try {
 				let res = await axios.post('/api/reset/update-password',datos)
 				return res.data
@@ -159,7 +167,7 @@ export const authModule = {
 		},
 
 		// actualizar codigo
-		async CodigoUpdate(context,datos){
+		async CODIGO_UPDATE_RESET_PASSWORD(context,datos){
 			try {
 				let res = await axios.post('/api/reset/update-codigo',datos)
 				return res.data
@@ -169,12 +177,12 @@ export const authModule = {
 		},
 
 		// registro del usuario
-		async store(context,datos){
+		async STORE_USER(context,datos){
 			try {
 				let res = await axios.post('/api/auth/registro/user',datos)
 				  	return res.data
 			} catch(e) {
-				return e
+				    return e
 			}
 		}
 

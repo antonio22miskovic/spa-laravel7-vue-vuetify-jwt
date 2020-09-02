@@ -31,19 +31,20 @@
             </v-card-actions>
         </v-form>
     </v-card-text>
-    <div class="text-center">
+    <div class="text-center mt-10">
     	<v-btn text  color="secondary" :to="{name:'login_in'}">login</v-btn>
  	  </div>
 	</div>
 </template>
 <script>
+import Swal from 'sweetalert2'
 	export default{
 
 		name:'EmailVerifique',
 
 		mounted(){
 
-			if (this.$store.state.auth.resetdatos === null) {
+			if (this.$store.state.AUTH.resetdatos === null) {
 				this.$router.push({name:'login_in'})
 			}
 
@@ -72,26 +73,33 @@
 				if(!this.$refs.new.validate()){// verificar la validacion
              		 return
           		}
-				this.$store.commit('auth/loading') // llamamos aesta mutacion que activa el loading
+				this.$store.commit('AUTH/LOADING') // llamamos aesta mutacion que activa el loading
 				if (this.newPasswordc === this.newPassword) {
 					let datos = {
-						email       : this.$store.state.auth.resetdatos.email,
-						codigo      : this.$store.state.auth.resetdatos.codigo,
+						email       : this.$store.state.AUTH.resetdatos.email,
+						codigo      : this.$store.state.AUTH.resetdatos.codigo,
 						newPassword : this.newPassword
 					}
 
-					this.$store.dispatch('auth/passwordReset',datos).then(res => {
+					this.$store.dispatch('AUTH/PASSWORD_UPDATE_RESET_PASSWORD',datos).then(res => {
 						this.error = false
-						this.$store.commit('auth/clearReset')
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Se actualizo correctamente',
+              showConfirmButton: false,
+              timer: 1500
+            })
+						this.$store.commit('AUTH/CLEAR_RESET')
 						this.$router.push({name:'login_in'})
 					})
 					.catch( err => {
-						this.$store.commit('auth/authError',err)
+						this.$store.commit('AUTH/AUTH_ERROR',err)
 					})
 				}else{
 					this.error = true
 					this.newPasswordc = null
-					this.$store.commit('auth/authError','contraseña no coinciden')
+					this.$store.commit('AUTH/AUTH_ERROR','contraseña no coinciden')
 					this.ErrorModal = true
 				}
 
@@ -102,23 +110,23 @@
 		computed:{
 			 title:{
       			set(value){
-        			return this.$store.commit('auth/updateTitle',value)
+        			return this.$store.commit('AUTH/TITLE',value)
       			},
       			get(){
-        			return this.$store.state.auth.title
+        			return this.$store.state.AUTH.title
       			}
     		},
 
 			 loading(){
-       	 		return this.$store.state.auth.loading
+       	 		return this.$store.state.AUTH.loading
      		},
       		ErrorModal:{
 
      			set(value){
-          			return this.$store.commit('auth/MostrarError',value)
+          			return this.$store.commit('AUTH/ERROR_ON',value)
       			},
       			get(){
-          			return this.$store.state.auth.showResult
+          			return this.$store.state.AUTH.showResult
       			}
 
     		},

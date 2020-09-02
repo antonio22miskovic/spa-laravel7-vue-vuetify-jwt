@@ -53,18 +53,18 @@ __webpack_require__.r(__webpack_exports__);
   methods: {},
   computed: {
     title: function title() {
-      return this.$store.state.auth.title;
+      return this.$store.state.AUTH.title;
     },
     ErrorModal: {
       set: function set(value) {
-        return this.$store.commit('auth/MostrarError', value);
+        return this.$store.commit('AUTH/ERROR_ON', value);
       },
       get: function get() {
-        return this.$store.state.auth.showResult;
+        return this.$store.state.AUTH.showResult;
       }
     },
     result: function result() {
-      return this.$store.state.auth.auth_error;
+      return this.$store.state.AUTH.auth_error;
     }
   }
 });
@@ -201,7 +201,7 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("div", { staticClass: "text-center" }, [
-                            _c("strong", [_vm._v(" Ramon Villalobos || 2020 ")])
+                            _c("strong", [_vm._v(" Ramon Villalobos - 2020 ")])
                           ])
                         ],
                         1

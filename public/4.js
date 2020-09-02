@@ -86,15 +86,15 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      this.$store.commit('auth/loading'); // llamamos aesta mutacion que activa el loading
+      this.$store.commit('AUTH/LOADING'); // llamamos aesta mutacion que activa el loading
 
-      this.$store.dispatch('auth/auth', this.credenciales).then(function (res) {
+      this.$store.dispatch('AUTH/AUTH', this.credenciales).then(function (res) {
         // acciones para el login
         Object(_helpers_axiosDefaultHeaders__WEBPACK_IMPORTED_MODULE_0__["setAuthorization"])(res.access_token); // introducimos el token en el header de axios
 
         _this.error = true;
 
-        _this.$store.commit('auth/loginExitoso', res); // si el login es exitoso
+        _this.$store.commit('AUTH/lOGIN_SUCCESS', res); // si el login es exitoso
 
 
         _this.$router.push({
@@ -102,7 +102,7 @@ __webpack_require__.r(__webpack_exports__);
         }); // empujamos a la vista home
 
       })["catch"](function (err) {
-        _this.$store.commit('auth/authError', err); // validamos el error
+        _this.$store.commit('AUTH/AUTH_ERROR', err); // validamos el error
 
 
         _this.ErrorModal = true;
@@ -113,21 +113,21 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     title: {
       set: function set(value) {
-        return this.$store.commit('auth/updateTitle', value);
+        return this.$store.commit('AUTH/TITLE', value);
       },
       get: function get() {
-        return this.$store.state.auth.title;
+        return this.$store.state.AUTH.title;
       }
     },
     loading: function loading() {
-      return this.$store.state.auth.loading;
+      return this.$store.state.AUTH.loading;
     },
     ErrorModal: {
       set: function set(value) {
-        return this.$store.commit('auth/MostrarError', value);
+        return this.$store.commit('AUTH/ERROR_ON', value);
       },
       get: function get() {
-        return this.$store.state.auth.showResult;
+        return this.$store.state.AUTH.showResult;
       }
     }
   }

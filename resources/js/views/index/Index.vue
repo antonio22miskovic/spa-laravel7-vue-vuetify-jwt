@@ -16,7 +16,7 @@
                 </transition>
               </v-container>
                 <div class="text-center">
-                  <strong> Ramon Villalobos || 2020 </strong>
+                  <strong> Ramon Villalobos - 2020 </strong>
                 </div>
             </v-card>
           </v-flex>
@@ -47,20 +47,20 @@ export default {
   computed:{
 
     title(){
-      return this.$store.state.auth.title
+      return this.$store.state.AUTH.title
     },
 
     ErrorModal:{
       set(value){
-          return this.$store.commit('auth/MostrarError',value)
+          return this.$store.commit('AUTH/ERROR_ON',value)
       },
       get(){
-          return this.$store.state.auth.showResult
+          return this.$store.state.AUTH.showResult
       }
     },
 
     result(){
-      return this.$store.state.auth.auth_error
+      return this.$store.state.AUTH.auth_error
     }
 
   },

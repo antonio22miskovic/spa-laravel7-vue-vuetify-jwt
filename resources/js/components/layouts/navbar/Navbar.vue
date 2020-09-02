@@ -5,7 +5,7 @@
     		 >
          <!-- NAV PARA USUARIO LOGUEADO -->
          <template>
-             <v-app-bar-nav-icon ></v-app-bar-nav-icon>
+             <v-app-bar-nav-icon @click="Drawer_On"></v-app-bar-nav-icon>
               <v-toolbar-title>
                   <router-link to="/home" tag="span" style="cursor:pointer">vuetify</router-link>
               </v-toolbar-title>
@@ -38,12 +38,14 @@
 		}),
 
 		computed:{
-      ...mapState('auth',['currentUser'])
+      ...mapState('AUTH',['currentUser'])
 		},
     methods:{
-
+      Drawer_On(){
+        this.$store.commit('ADMIN_HOME/SET_DRAWER',true)
+      },
       cerrar_session(){
-        this.$store.commit('auth/logout')
+        this.$store.commit('AUTH/lOGOUT')
         this.$router.push('/')
       }
     },

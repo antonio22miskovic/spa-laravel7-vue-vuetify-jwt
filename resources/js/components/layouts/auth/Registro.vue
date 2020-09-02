@@ -59,6 +59,7 @@
 	</div>
 </template>
 <script>
+import Swal from 'sweetalert2'
 	export default{
 
 		name:'Registro',
@@ -100,22 +101,28 @@
         if (this.$refs.registro.resetValidation()) {
             return
         }
-        this.$store.commit('auth/loading') // llamamos aesta mutacion que activa el loading
-        this.$store.dispatch('auth/store',this.data).then(res => {
+        this.$store.commit('AUTH/LOADING') // llamamos a esta mutacion que activa el loading
+        this.$store.dispatch('AUTH/STORE_USER',this.data).then(res => {
 
           if (res.validation === undefined) {// comprobamos si hay errores de validacion
-              this.$store.commit('auth/loadingfalse')
-          		console.log('usuario creado con exito')
+              this.$store.commit('AUTH/LOADING_FALSE')
+               Swal.fire({
+                position:'center',
+                icon: 'success',
+                title: 'Su registro fue exitoso',
+                showConfirmButton: false,
+                timer: 1500
+              })
               this.reset()
-
+              this.$router.push({name:'login_in'})
           }else{// si hay errores  veremos cual es
             this.validacion(res.validation)
-            this.$store.commit('auth/loadingfalse')
+            this.$store.commit('AUTH/LOADING_FALSE')
           }
 
         })
         .catch(err => console.log(err))
-        this.$store.commit('auth/loadingfalse')
+        this.$store.commit('AUTH/LOADING_FALSE')
 			},
 
 			reset(){
@@ -152,14 +159,14 @@
 		computed:{
 			title:{
       			set(value){
-        			return this.$store.commit('auth/updateTitle',value)
+        			return this.$store.commit('AUTH/TITLE',value)
       			},
       			get(){
-        			return this.$store.state.auth.title
+        			return this.$store.state.AUTH.title
       			}
     	},
       loading(){
-        return this.$store.state.auth.loading
+        return this.$store.state.AUTH.loading
       },
 		}
 	}

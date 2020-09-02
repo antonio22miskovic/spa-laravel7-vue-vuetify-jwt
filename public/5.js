@@ -106,12 +106,12 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      this.$store.commit('auth/loading'); // llamamos aesta mutacion que activa el loading
+      this.$store.commit('AUTH/LOADING'); // llamamos a esta mutacion que activa el loading
 
-      this.$store.dispatch('auth/store', this.data).then(function (res) {
+      this.$store.dispatch('AUTH/STORE_USER', this.data).then(function (res) {
         if (res.validation === undefined) {
           // comprobamos si hay errores de validacion
-          _this.$store.commit('auth/loadingfalse');
+          _this.$store.commit('AUTH/LOADING_FALSE');
 
           console.log('usuario creado con exito');
 
@@ -120,12 +120,12 @@ __webpack_require__.r(__webpack_exports__);
           // si hay errores  veremos cual es
           _this.validacion(res.validation);
 
-          _this.$store.commit('auth/loadingfalse');
+          _this.$store.commit('AUTH/LOADING_FALSE');
         }
       })["catch"](function (err) {
         return console.log(err);
       });
-      this.$store.commit('auth/loadingfalse');
+      this.$store.commit('AUTH/LOADING_FALSE');
     },
     reset: function reset() {
       this.$refs.registro.reset();
@@ -157,14 +157,14 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     title: {
       set: function set(value) {
-        return this.$store.commit('auth/updateTitle', value);
+        return this.$store.commit('AUTH/TITLE', value);
       },
       get: function get() {
-        return this.$store.state.auth.title;
+        return this.$store.state.AUTH.title;
       }
     },
     loading: function loading() {
-      return this.$store.state.auth.loading;
+      return this.$store.state.AUTH.loading;
     }
   }
 });

@@ -97426,7 +97426,7 @@ function handler(store, router) {
     console.log(headers);
 
     if (headers.authorization !== undefined) {
-      var updateToken = store.state.auth.currentUser;
+      var updateToken = store.state.AUTH.currentUser;
       updateToken.token = headers.authorization;
       localStorage.setItem('user', JSON.stringify(updateToken));
       Object(_axiosDefaultHeaders__WEBPACK_IMPORTED_MODULE_0__["setAuthorization"])(headers.authorization);
@@ -97455,7 +97455,7 @@ function Interceptor(store, router) {
     var requiresAuth = to.matched.some(function (record) {
       return record.meta.requiresAuth;
     });
-    var currentUser = store.state.auth.currentUser; // acedemos al estado del modulo auth
+    var currentUser = store.state.AUTH.currentUser; // acedemos al estado del modulo auth
 
     if (requiresAuth && !currentUser) {
       next('/');
@@ -97482,8 +97482,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAuthorization", function() { return setAuthorization; });
 // esta funcion inyecta constatemente el token que esta en el estado
 function axiosHeaders(store) {
-  if (store.state.auth.currentUser) {
-    setAuthorization(store.state.auth.currentUser.token);
+  if (store.state.AUTH.currentUser) {
+    setAuthorization(store.state.AUTH.currentUser.token);
   }
 } // funcion de manejo de cabezera para manipular el token
 
@@ -97622,25 +97622,25 @@ var routes = [//rutas
     path: 'email-verifique',
     name: 'emailVerifique',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/EmailVerifique */ "./resources/js/components/layouts/auth/EmailVerifique.vue"));
+      return Promise.all(/*! import() */[__webpack_require__.e(3), __webpack_require__.e(6)]).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/EmailVerifique */ "./resources/js/components/layouts/auth/EmailVerifique.vue"));
     }
   }, {
     path: 'codigo-verifique',
     name: 'codigoVerifique',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/CodigoVerifique */ "./resources/js/components/layouts/auth/CodigoVerifique.vue"));
+      return Promise.all(/*! import() */[__webpack_require__.e(3), __webpack_require__.e(8)]).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/CodigoVerifique */ "./resources/js/components/layouts/auth/CodigoVerifique.vue"));
     }
   }, {
     path: 'update-password',
     name: 'updatePassword',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/UpdatePassword */ "./resources/js/components/layouts/auth/UpdatePassword.vue"));
+      return Promise.all(/*! import() */[__webpack_require__.e(3), __webpack_require__.e(7)]).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/UpdatePassword */ "./resources/js/components/layouts/auth/UpdatePassword.vue"));
     }
   }, {
     path: '/registro',
     name: 'registro',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Registro */ "./resources/js/components/layouts/auth/Registro.vue"));
+      return Promise.all(/*! import() */[__webpack_require__.e(3), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! ./../components/layouts/auth/Registro */ "./resources/js/components/layouts/auth/Registro.vue"));
     }
   }] // fin del children del index
 
@@ -97648,7 +97648,7 @@ var routes = [//rutas
   path: '/home',
   name: 'home',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./../views/Home */ "./resources/js/views/Home.vue"));
+    return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./../views/admin/Home */ "./resources/js/views/admin/Home.vue"));
   },
   meta: {
     requiresAuth: true
@@ -97671,19 +97671,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_authModule__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/authModule */ "./resources/js/store/modules/authModule.js");
+/* harmony import */ var _modules_adminHome__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/adminHome */ "./resources/js/store/modules/adminHome.js");
 /////////////////////////// INDEX DE VUEX MANEJO DE MODULOS DE LA TIENDA //////////////
 
  /// INYECTION DE MODULES
+
 
  // instacia de vuex
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
-    auth: _modules_authModule__WEBPACK_IMPORTED_MODULE_2__["authModule"] // modulo de autenticacion
+    AUTH: _modules_authModule__WEBPACK_IMPORTED_MODULE_2__["authModule"],
+    // modulo de autenticacion
+    ADMIN_HOME: _modules_adminHome__WEBPACK_IMPORTED_MODULE_3__["adminHome"] // modulo del home del admin
 
   }
 }); //import { mapState , mapActions , mapMutations } from 'vuex'
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/adminHome.js":
+/*!*************************************************!*\
+  !*** ./resources/js/store/modules/adminHome.js ***!
+  \*************************************************/
+/*! exports provided: adminHome */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "adminHome", function() { return adminHome; });
+/////////////////////////// INDEX DE VUEX MANEJO DEl HOME DEL NIVEL ADMIN  //////////////
+var adminHome = {
+  namespaced: true,
+  state: function state() {
+    return {
+      drawer: false
+    };
+  },
+  mutations: {
+    SET_DRAWER: function SET_DRAWER(state, payload) {
+      state.drawer = payload;
+    }
+  },
+  actions: {}
+};
 
 /***/ }),
 
@@ -97729,11 +97761,11 @@ var authModule = {
     };
   },
   mutations: {
-    loading: function loading(state) {
+    LOADING: function LOADING(state) {
       state.loading = true;
       state.auth_error = null;
     },
-    loginExitoso: function loginExitoso(state, payload) {
+    lOGIN_SUCCESS: function lOGIN_SUCCESS(state, payload) {
       //por si intentaron resetear la contraseña y no lo terminaron
       localStorage.removeItem('email');
       localStorage.removeItem('datos');
@@ -97745,46 +97777,46 @@ var authModule = {
       });
       localStorage.setItem('user', JSON.stringify(state.currentUser));
     },
-    authError: function authError(state, payload) {
+    AUTH_ERROR: function AUTH_ERROR(state, payload) {
       state.loading = false;
       state.auth_error = payload;
     },
-    MostrarError: function MostrarError(state, payload) {
+    ERROR_ON: function ERROR_ON(state, payload) {
       state.showResult = payload;
     },
-    updateTitle: function updateTitle(state, payload) {
+    TITLE: function TITLE(state, payload) {
       state.title = payload;
     },
-    logout: function logout(state) {
+    lOGOUT: function lOGOUT(state) {
       localStorage.removeItem('user');
       state.isloggeadin = false;
       state.currentUser = null;
     },
     // recuperar contraseña
-    setResetEmail: function setResetEmail(state, payload) {
+    SET_RESET_EMAIL: function SET_RESET_EMAIL(state, payload) {
       state.resetemail = payload;
       state.loading = false;
       localStorage.setItem('email', JSON.stringify(payload));
     },
-    setResetDatos: function setResetDatos(state, payload) {
+    SET_RESET_DATOS: function SET_RESET_DATOS(state, payload) {
       state.resetdatos = payload;
       state.loading = false;
       localStorage.setItem('datos', JSON.stringify(payload));
     },
-    clearReset: function clearReset(state) {
+    CLEAR_RESET: function CLEAR_RESET(state) {
       localStorage.removeItem('email');
       localStorage.removeItem('datos');
       state.loading = false;
       state.resetemail = null;
       state.resetdatos = null;
     },
-    loadingfalse: function loadingfalse(state) {
+    LOADING_FALSE: function LOADING_FALSE(state) {
       state.loading = false;
     }
   },
   getters: {},
   actions: {
-    auth: function auth(context, credenciales) {
+    AUTH: function AUTH(context, credenciales) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -97814,7 +97846,7 @@ var authModule = {
     },
     /// RECUPERACION DE CONTRASEÑA
     // verificacion del email
-    emailVerificacion: function emailVerificacion(context, email) {
+    EMAIL_RESET_PASSWORD: function EMAIL_RESET_PASSWORD(context, email) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -97844,8 +97876,8 @@ var authModule = {
         }, _callee2, null, [[0, 7]]);
       }))();
     },
-    // verificacion del email
-    codigoVerificacion: function codigoVerificacion(context, datos) {
+    // verificacion codigo
+    CODIGO_RESET_PASSWORD: function CODIGO_RESET_PASSWORD(context, datos) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
@@ -97873,7 +97905,7 @@ var authModule = {
         }, _callee3, null, [[0, 7]]);
       }))();
     },
-    codigoUpdate: function codigoUpdate(context, datos) {
+    UPDATE_CODIGO_RESET_PASSWORD: function UPDATE_CODIGO_RESET_PASSWORD(context, datos) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
@@ -97902,7 +97934,7 @@ var authModule = {
       }))();
     },
     // actualizar la contraseña
-    passwordReset: function passwordReset(context, datos) {
+    PASSWORD_UPDATE_RESET_PASSWORD: function PASSWORD_UPDATE_RESET_PASSWORD(context, datos) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
@@ -97931,7 +97963,7 @@ var authModule = {
       }))();
     },
     // actualizar codigo
-    CodigoUpdate: function CodigoUpdate(context, datos) {
+    CODIGO_UPDATE_RESET_PASSWORD: function CODIGO_UPDATE_RESET_PASSWORD(context, datos) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
@@ -97960,7 +97992,7 @@ var authModule = {
       }))();
     },
     // registro del usuario
-    store: function store(context, datos) {
+    STORE_USER: function STORE_USER(context, datos) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
         var res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {

@@ -39,7 +39,7 @@ export const routes = [
   {
     path:'/home',
     name:'home',
-    component: () => import('./../views/Home'),
+    component: () => import('./../views/admin/Home'),
     meta: {
       requiresAuth: true
     },

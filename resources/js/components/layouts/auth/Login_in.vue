@@ -73,15 +73,15 @@ import { setAuthorization } from '../../../helpers/axiosDefaultHeaders'
           if(!this.$refs.login.validate()){// verificar la validacion
               return
           }
-          this.$store.commit('auth/loading') // llamamos aesta mutacion que activa el loading
-          this.$store.dispatch('auth/auth',this.credenciales).then(res => {// acciones para el login
+          this.$store.commit('AUTH/LOADING') // llamamos aesta mutacion que activa el loading
+          this.$store.dispatch('AUTH/AUTH',this.credenciales).then(res => {// acciones para el login
               setAuthorization(res.access_token)// introducimos el token en el header de axios
               this.error = true
-              this.$store.commit('auth/loginExitoso',res)// si el login es exitoso
+              this.$store.commit('AUTH/lOGIN_SUCCESS',res)// si el login es exitoso
               this.$router.push({path:'/home'})// empujamos a la vista home
           })
           .catch((err) => {
-              this.$store.commit('auth/authError',err)// validamos el error
+              this.$store.commit('AUTH/AUTH_ERROR',err)// validamos el error
               this.ErrorModal = true
               this.error = true
           })
@@ -92,22 +92,22 @@ import { setAuthorization } from '../../../helpers/axiosDefaultHeaders'
 
 		computed:{
       title:{
-            set(value){
-              return this.$store.commit('auth/updateTitle',value)
-            },
-            get(){
-              return this.$store.state.auth.title
-            }
+        set(value){
+          return this.$store.commit('AUTH/TITLE',value)
+        },
+        get(){
+          return this.$store.state.AUTH.title
+        }
       },
       loading(){
-        return this.$store.state.auth.loading
+        return this.$store.state.AUTH.loading
       },
       ErrorModal:{
-      set(value){
-          return this.$store.commit('auth/MostrarError',value)
+        set(value){
+          return this.$store.commit('AUTH/ERROR_ON',value)
       },
-      get(){
-          return this.$store.state.auth.showResult
+        get(){
+          return this.$store.state.AUTH.showResult
       }
     },
 

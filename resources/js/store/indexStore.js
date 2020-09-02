@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 
 /// INYECTION DE MODULES
 import {authModule} from './modules/authModule'
+import {adminHome} from './modules/adminHome'
 
 
 
@@ -12,7 +13,8 @@ import {authModule} from './modules/authModule'
 Vue.use(Vuex)
 export const store = new Vuex.Store({
 	modules:{
-		auth: authModule // modulo de autenticacion
+		AUTH       : authModule, // modulo de autenticacion
+		ADMIN_HOME : adminHome // modulo del home del admin
 
 	},
 })
